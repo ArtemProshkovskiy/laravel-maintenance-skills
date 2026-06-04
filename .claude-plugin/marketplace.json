@@ -1,0 +1,21 @@
+{
+  "name": "laravel-maintenance-skills",
+  "owner": {
+    "name": "Artem Proshkovskyi"
+  },
+  "metadata": {
+    "description": "A suite of advise-only Claude Code skills for keeping Laravel projects current and healthy."
+  },
+  "plugins": [
+    {
+      "name": "laravel-maintenance",
+      "source": "./maintenance",
+      "description": "Skills for Laravel dependency hygiene, update triage, and upgrade readiness.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Artem Proshkovskyi"
+      },
+      "category": "productivity"
+    }
+  ]
+}

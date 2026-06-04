@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c0c0f"/>
+      <stop offset="1" stop-color="#16161b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff3b2f"/>
+      <stop offset="1" stop-color="#ff6f61"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.85" cy="0" r="0.7">
+      <stop offset="0" stop-color="#ff3b2f" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ff3b2f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <g transform="translate(90, 96)">
+    <rect width="34" height="34" rx="9" fill="url(#accent)"/>
+    <text x="52" y="25" font-family="ui-monospace, Menlo, monospace" font-size="22" fill="#9a9aa5">Laravel Maintenance Skills</text>
+    <text x="52" y="25" dx="318" font-family="ui-monospace, Menlo, monospace" font-size="22" fill="#6b6b76">// for Claude Code</text>
+  </g>
+
+  <text x="90" y="290" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="82" font-weight="800" fill="#e7e7ea" letter-spacing="-2">A skills library to keep</text>
+  <text x="90" y="386" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="82" font-weight="800" fill="url(#accent)" letter-spacing="-2">Laravel projects healthy.</text>
+
+  <text x="90" y="470" font-family="ui-monospace, Menlo, monospace" font-size="28" fill="#9a9aa5">Composer tells you what's outdated —</text>
+  <text x="90" y="510" font-family="ui-monospace, Menlo, monospace" font-size="28" fill="#6b6b76">this library tells you what to do about it.</text>
+
+  <g transform="translate(90, 556)">
+    <circle cx="17" cy="0" r="17" fill="url(#accent)"/>
+    <text x="17" y="6" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">AP</text>
+    <text x="46" y="6" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22" fill="#9a9aa5">Artem Proshkovskyi · Developer</text>
+  </g>
+
+  <rect x="0" y="620" width="1200" height="10" fill="url(#accent)"/>
+</svg>

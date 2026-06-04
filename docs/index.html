@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0c0c0f" />
+
+<!-- Primary SEO -->
+<title>Laravel Maintenance Skills — a Claude Code skill library by Artem Proshkovskyi</title>
+<meta name="description" content="Advise-only Claude Code skills for maintaining Laravel projects: Composer dependency triage, abandoned-package replacements, and framework upgrade readiness." />
+<meta name="keywords" content="Laravel skills, Claude Code skills, Laravel maintenance, composer dependency audit, composer outdated, composer audit, abandoned composer packages, Laravel upgrade, agent skills, PHP dependency management, Artem Proshkovskyi" />
+<meta name="author" content="Artem Proshkovskyi" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+<link rel="canonical" href="https://artemproshkovskiy.github.io/laravel-maintenance-skills/" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ff3b2f'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="assets/style.css" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Laravel Maintenance Skills" />
+<meta property="og:title" content="Laravel Maintenance Skills — a Claude Code skill library" />
+<meta property="og:description" content="An open, growing library of advise-only Claude Code skills for keeping Laravel projects current and healthy. Browse the catalog and pick a skill." />
+<meta property="og:url" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/" />
+<meta property="og:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.svg" />
+<meta property="og:image:alt" content="Laravel Maintenance Skills — a Claude Code skill library by Artem Proshkovskyi" />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Laravel Maintenance Skills — Claude Code skill library" />
+<meta name="twitter:description" content="Advise-only Claude Code skills for Laravel project maintenance: dependency triage, abandoned-package replacements, upgrade readiness." />
+<meta name="twitter:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.svg" />
+<meta name="twitter:image:alt" content="Laravel Maintenance Skills — a Claude Code skill library" />
+
+<!-- Structured data: the library as a collection + its author -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/#website",
+      "url": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/",
+      "name": "Laravel Maintenance Skills",
+      "description": "An open library of advise-only Claude Code skills for maintaining Laravel projects.",
+      "author": { "@id": "https://github.com/ArtemProshkovskiy#person" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://github.com/ArtemProshkovskiy#person",
+      "name": "Artem Proshkovskyi",
+      "url": "https://github.com/ArtemProshkovskiy",
+      "jobTitle": "Developer"
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "Skills catalog",
+      "url": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/",
+      "hasPart": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "composer-dependency-triage",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any (Claude Code)",
+              "description": "Laravel-native triage of composer outdated and composer audit into a Do-now / Do-carefully / Defer plan, with maintained replacements for abandoned packages and PHP/Laravel compatibility checks.",
+              "url": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/composer-dependency-triage.html",
+              "author": { "@id": "https://github.com/ArtemProshkovskiy#person" },
+              "license": "https://opensource.org/licenses/MIT",
+              "softwareVersion": "0.1.0"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Structured data: FAQ (rich results) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I audit Composer dependencies in a Laravel project?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Install the library in Claude Code, open your project, and ask “audit my composer dependencies.” The composer-dependency-triage skill runs composer outdated and composer audit, then returns a prioritized Do-now / Do-carefully / Defer plan with exact commands." }
+    },
+    {
+      "@type": "Question",
+      "name": "What can I use to replace an abandoned Composer package?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The skill recommends a maintained, community-standard successor for abandoned packages — even when Composer only prints “No replacement was suggested” — and tells you whether the migration is drop-in or an API change. Every replacement is marked “verify before adopting.”" }
+    },
+    {
+      "@type": "Question",
+      "name": "How does it find the safest fix for a security advisory?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It reads each advisory’s affected-version range literally, computes the lowest fixed version, prefers a drop-in patch within your current major, and confirms that version exists — so a CVE never pushes you into a needless major migration." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it change my composer.json or run updates?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. It is advise-only: it reads files and runs read-only commands, then hands you a plan. It never edits composer.json, the lockfile, or code — you run every command yourself." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot"></span> Laravel Maintenance Skills <small>// for Claude Code</small></a>
+    <div class="links">
+      <a href="#catalog">Catalog</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+      <a href="#install">Install</a>
+      <a class="btn ghost sm" data-gh="" href="#">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">⚡ A growing skill library · Laravel-native · Claude Code</span>
+    <h1>A skills library to keep<br><span class="grad">Laravel projects healthy.</span></h1>
+    <p class="lede">Pick a skill, drop it into Claude Code, and turn raw Composer output into a clear, prioritized maintenance plan. Advise-only — it recommends, you stay in control.</p>
+    <p class="pull">Composer tells you what's outdated.<br><span>// this library tells you what to do about it.</span></p>
+    <div class="cta-row">
+      <a class="btn" href="#catalog">Browse the catalog</a>
+      <a class="btn ghost" href="#install">Install in Claude Code</a>
+    </div>
+    <div class="byline">
+      <span class="av">AP</span>
+      <span>Built &amp; maintained by <b>Artem Proshkovskyi</b> · Developer</span>
+    </div>
+  </div>
+</header>
+
+<!-- CATALOG -->
+<section id="catalog">
+  <div class="wrap">
+    <p class="kicker">The library</p>
+    <h2>Skills catalog</h2>
+    <p class="sub">A modular, open library — each skill is a self-contained, advise-only folder you can read about and install on its own. New skills are added over time; search or filter to find one.</p>
+
+    <div class="toolbar">
+      <label class="search">
+        <span class="ic">🔎</span>
+        <input id="q" type="search" placeholder="Search skills — e.g. dependency, audit, upgrade…" aria-label="Search skills" />
+      </label>
+      <div class="chips" id="chips">
+        <button class="chip active" data-cat="all">All</button>
+        <button class="chip" data-cat="dependencies">Dependencies</button>
+        <button class="chip" data-cat="security">Security</button>
+        <button class="chip" data-cat="upgrade">Upgrade</button>
+      </div>
+    </div>
+
+    <div class="catalog" id="catalog-grid">
+
+      <a class="scard" href="skills/composer-dependency-triage.html"
+         data-name="composer-dependency-triage"
+         data-cat="dependencies security upgrade"
+         data-keywords="composer outdated audit abandoned replacement vulnerability cve triage dependency">
+        <div class="row">
+          <span class="mono-name">composer-dependency-triage</span>
+          <span class="badge ok" style="margin-left:auto;">● available</span>
+        </div>
+        <p class="blurb">Turns <code>composer outdated</code> + <code>composer audit</code> into a Do-now / Do-carefully / Defer plan. Recommends maintained replacements for abandoned packages and verifies the safest fix before any major bump.</p>
+        <div class="meta">
+          <span class="tagpill">dependencies</span>
+          <span class="tagpill">security</span>
+          <span class="tagpill">v0.1.0</span>
+          <span class="more">Read more →</span>
+        </div>
+      </a>
+
+      <div class="scard" style="opacity:.7;"
+         data-name="upgrade-orchestrator"
+         data-cat="upgrade"
+         data-keywords="laravel framework upgrade staging orchestrator migration">
+        <div class="row">
+          <span class="mono-name">upgrade-orchestrator</span>
+          <span class="badge soon" style="margin-left:auto;">○ planned</span>
+        </div>
+        <p class="blurb">Plan and stage a Laravel framework upgrade end to end — sequence the framework bump and its coupled packages into safe, testable steps.</p>
+        <div class="meta">
+          <span class="tagpill">upgrade</span>
+          <span class="tagpill">roadmap</span>
+        </div>
+      </div>
+
+    </div>
+    <p class="no-results" id="no-results">No skills match your search.</p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap">
+    <p class="kicker">How it works</p>
+    <h2>The judgment layer Composer doesn't have</h2>
+    <p class="sub">The tools you already have detect facts; these skills decide what to do with them — and never touch your project while doing it.</p>
+    <div class="grid cols-3">
+      <div class="card"><span class="ico">📋</span><h3>Reads ground truth</h3><p>Runs the real <code>composer outdated</code> / <code>audit</code> / <code>why</code> and reads the output — never invents a version or a CVE.</p></div>
+      <div class="card"><span class="ico">🧠</span><h3>Applies judgment</h3><p>Classifies, prioritizes, recommends replacements for abandoned packages, and verifies the safest fix version exists.</p></div>
+      <div class="card" style="border-color: rgba(255,59,47,.35);"><span class="ico">🛡️</span><h3>Advise-only</h3><p>Emits a plan with exact commands. It never edits your <code>composer.json</code>, lockfile, or code — you run everything.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap prose">
+    <p class="kicker">FAQ</p>
+    <h2>Frequently asked questions</h2>
+
+    <h3>How do I audit Composer dependencies in a Laravel project?</h3>
+    <p>Install the library in Claude Code, open your project, and ask &ldquo;audit my composer dependencies.&rdquo; The <code>composer-dependency-triage</code> skill runs <code>composer outdated</code> and <code>composer audit</code>, then returns a prioritized Do-now / Do-carefully / Defer plan with exact commands.</p>
+
+    <h3>What can I use to replace an abandoned Composer package?</h3>
+    <p>The skill recommends a maintained, community-standard successor for abandoned packages &mdash; even when Composer only prints &ldquo;No replacement was suggested&rdquo; &mdash; and tells you whether the migration is drop-in or an API change. Every replacement is marked &ldquo;verify before adopting.&rdquo;</p>
+
+    <h3>How does it find the safest fix for a security advisory?</h3>
+    <p>It reads each advisory&rsquo;s affected-version range literally, computes the lowest fixed version, prefers a drop-in patch within your current major, and confirms that version exists &mdash; so a CVE never pushes you into a needless major migration.</p>
+
+    <h3>Does it change my composer.json or run updates?</h3>
+    <p>No. It is advise-only: it reads files and runs read-only commands, then hands you a plan. It never edits <code>composer.json</code>, the lockfile, or code &mdash; you run every command yourself.</p>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section id="install">
+  <div class="wrap">
+    <p class="kicker">Get started</p>
+    <h2>Add the library to Claude Code</h2>
+    <p class="sub">The repo is a Claude Code plugin marketplace. Add it once and every skill in the library becomes available; new skills arrive as you update.</p>
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i><span>Claude Code</span></div>
+<pre><span class="c"># 1 · add the marketplace</span>
+<span class="p">/plugin</span> marketplace add <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills
+
+<span class="c"># 2 · install the plugin (the whole library)</span>
+<span class="p">/plugin</span> install <span class="g">laravel-maintenance@laravel-maintenance-skills</span>
+
+<span class="c"># 3 · open Claude Code in your Laravel project and ask</span>
+<span class="o">audit my composer dependencies</span></pre>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="index.html" style="margin-bottom:6px;"><span class="dot"></span> Laravel Maintenance Skills</a>
+      <div class="tag">// advise-only · MIT · a Claude Code skill library</div>
+    </div>
+    <div style="text-align:right;">
+      <div>Built by <a data-gh="" href="#">Artem Proshkovskyi</a> · Developer</div>
+      <div class="tag"><a data-gh="" href="#">GitHub</a> · <a data-gh="/blob/main/LICENSE" href="#">License</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Single edit point: set your GitHub account and every repo link resolves ──
+  var OWNER = "ArtemProshkovskiy"; // GitHub account that hosts this repo
+  var REPO  = "https://github.com/" + OWNER + "/laravel-maintenance-skills";
+  document.querySelectorAll('[data-gh]').forEach(function (a) {
+    a.href = REPO + (a.getAttribute('data-gh') || '');
+  });
+
+  // ── Catalog search + category filter ──
+  var q = document.getElementById('q');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('#catalog-grid .scard'));
+  var chips = Array.prototype.slice.call(document.querySelectorAll('#chips .chip'));
+  var noRes = document.getElementById('no-results');
+  var activeCat = 'all';
+
+  function apply() {
+    var term = (q.value || '').toLowerCase().trim();
+    var shown = 0;
+    cards.forEach(function (c) {
+      var hay = (c.dataset.name + ' ' + c.dataset.keywords + ' ' + c.dataset.cat).toLowerCase();
+      var matchCat = activeCat === 'all' || (c.dataset.cat || '').indexOf(activeCat) !== -1;
+      var matchTerm = !term || hay.indexOf(term) !== -1;
+      var ok = matchCat && matchTerm;
+      c.style.display = ok ? '' : 'none';
+      if (ok) shown++;
+    });
+    noRes.style.display = shown ? 'none' : 'block';
+  }
+  q.addEventListener('input', apply);
+  chips.forEach(function (ch) {
+    ch.addEventListener('click', function () {
+      chips.forEach(function (x){ x.classList.remove('active'); });
+      ch.classList.add('active');
+      activeCat = ch.dataset.cat;
+      apply();
+    });
+  });
+</script>
+</body>
+</html>

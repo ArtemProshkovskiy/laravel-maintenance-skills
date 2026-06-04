@@ -1,0 +1,20 @@
+{
+  "name": "laravel-maintenance",
+  "description": "Skills for Laravel dependency hygiene, update triage, and upgrade readiness. Advise-only: these skills analyze and recommend, but never modify your code, composer.json, or lockfiles.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Artem Proshkovskyi"
+  },
+  "homepage": "https://github.com/ArtemProshkovskiy/laravel-maintenance-skills",
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "php",
+    "composer",
+    "dependencies",
+    "maintenance",
+    "upgrade",
+    "claude-code"
+  ],
+  "category": "productivity"
+}

@@ -1,0 +1,3 @@
+Allow: /
+
+Sitemap: https://artemproshkovskiy.github.io/laravel-maintenance-skills/sitemap.xml
