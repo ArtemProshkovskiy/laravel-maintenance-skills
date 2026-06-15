@@ -1,6 +1,6 @@
 {
   "name": "laravel-maintenance",
-  "description": "Skills for Laravel dependency hygiene, update triage, and upgrade readiness. Advise-only: these skills analyze and recommend, but never modify your code, composer.json, or lockfiles.",
+  "description": "Skills for Laravel dependency hygiene, update triage, upgrade readiness, and authorization/IDOR review. Advise-only: these skills analyze and recommend, but never modify your code, composer.json, or lockfiles.",
   "version": "0.1.0",
   "author": {
     "name": "Artem Proshkovskyi"
@@ -14,6 +14,9 @@
     "dependencies",
     "maintenance",
     "upgrade",
+    "security",
+    "authorization",
+    "idor",
     "claude-code"
   ],
   "category": "productivity"

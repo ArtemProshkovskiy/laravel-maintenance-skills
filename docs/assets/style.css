@@ -45,6 +45,14 @@ nav .wrap { display: flex; align-items: center; gap: 20px; height: 60px; }
 nav .links { margin-left: auto; display: flex; gap: 22px; align-items: center; }
 nav .links a { color: var(--muted); font-size: 14px; font-weight: 500; }
 nav .links a:hover { color: #fff; }
+/* Responsive nav: below 720px the in-page anchors crowd the brand — hide them
+   and keep the brand + the primary GitHub button, which stays reachable. */
+@media (max-width: 720px) {
+  nav .wrap { gap: 12px; }
+  nav .links { gap: 14px; }
+  nav .links a:not(.btn) { display: none; }
+  .brand small { display: none; }
+}
 
 .btn { display: inline-flex; align-items: center; gap: 8px;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
@@ -131,7 +139,7 @@ a.scard:hover { border-color: rgba(255,59,47,.4); transform: translateY(-2px); c
 @media (max-width: 760px){ .lanes { grid-template-columns: 1fr; } }
 .lane { border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; background: var(--panel); }
 .lane h4 { margin: 0 0 8px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
-.lane.now{ border-top: 3px solid var(--green); } .lane.careful{ border-top: 3px solid var(--amber); } .lane.defer{ border-top: 3px solid var(--accent); }
+.lane.now{ border-top: 3px solid var(--green); } .lane.careful{ border-top: 3px solid var(--amber); } .lane.defer{ border-top: 3px solid var(--accent); } .lane.harden{ border-top: 3px solid var(--blue); }
 .lane p { margin: 0; color: var(--muted); font-size: 14px; }
 
 /* feature list */

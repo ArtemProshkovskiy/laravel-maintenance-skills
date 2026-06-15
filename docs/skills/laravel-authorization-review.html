@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0c0c0f" />
+
+<!-- Primary SEO -->
+<title>laravel-authorization-review — Laravel IDOR & authorization review skill for Claude Code</title>
+<meta name="description" content="Claude Code skill: finds IDOR / broken object-level authorization in Laravel. Walks each route's middleware, policy/gate, query scoping, and API Resource output, anchored to php artisan route:list. Per-route coverage map, confidence-rated findings. Advise-only." />
+<meta name="keywords" content="Laravel IDOR, broken object level authorization, BOLA, broken access control, Laravel authorization review, Laravel policy gate audit, route:list, Sanctum API security, OWASP API Top 10, Laravel security, Claude Code skill, Artem Proshkovskyi" />
+<meta name="author" content="Artem Proshkovskyi" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+<link rel="canonical" href="https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/laravel-authorization-review.html" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ff3b2f'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="../assets/style.css" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Laravel Maintenance Skills" />
+<meta property="og:title" content="laravel-authorization-review — Laravel IDOR & authorization review for Claude Code" />
+<meta property="og:description" content="Find broken object-level authorization (IDOR) in Laravel: route chain → policy/gate → query scoping → API Resource output, anchored to route:list. Coverage map + confidence-rated findings. Advise-only." />
+<meta property="og:url" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/laravel-authorization-review.html" />
+<meta property="og:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.png" />
+<meta property="og:image:alt" content="laravel-authorization-review — a Laravel IDOR & authorization review skill for Claude Code" />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="laravel-authorization-review — Claude Code skill" />
+<meta name="twitter:description" content="Laravel IDOR / broken-object-level-authorization review: route chain, policies, query scoping, API Resource leaks. Coverage map + confidence levels." />
+<meta name="twitter:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.png" />
+<meta name="twitter:image:alt" content="laravel-authorization-review — Laravel IDOR & authorization review for Claude Code" />
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "laravel-authorization-review",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (Claude Code; Laravel with artisan)",
+      "softwareVersion": "0.1.0",
+      "description": "A Claude Code skill that reviews Laravel HTTP authorization for IDOR / broken object-level authorization. It walks every route's authorization chain — middleware, policy/gate, Eloquent query scoping, and API Resource output — anchored to php artisan route:list, and returns a per-route coverage map with confidence-rated findings. Advise-only.",
+      "url": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/laravel-authorization-review.html",
+      "license": "https://opensource.org/licenses/MIT",
+      "author": { "@type": "Person", "name": "Artem Proshkovskyi", "url": "https://github.com/ArtemProshkovskiy" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Skills library", "item": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/" },
+        { "@type": "ListItem", "position": 2, "name": "laravel-authorization-review", "item": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/laravel-authorization-review.html" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span> Laravel Maintenance Skills <small>// for Claude Code</small></a>
+    <div class="links">
+      <a href="../index.html#catalog">Catalog</a>
+      <a href="../index.html#install">Install</a>
+      <a class="btn ghost sm" data-gh="/tree/main/maintenance/skills/laravel-authorization-review" href="#">View source ↗</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="crumbs">
+    <a href="../index.html">Skills library</a><span class="sep">/</span><span>laravel-authorization-review</span>
+  </div>
+
+  <div class="detail-head">
+    <h1>laravel-authorization-review</h1>
+    <div class="meta">
+      <span class="badge ok">● available</span>
+      <span class="tagpill">security</span>
+      <span class="tagpill">IDOR / BOLA</span>
+      <span class="tagpill">access control</span>
+      <span class="tagpill">v0.1.0</span>
+      <span class="tagpill">MIT</span>
+    </div>
+    <p class="lede" style="margin:0;">A Laravel-native authorization reviewer. Point it at any Laravel project and it finds broken object-level authorization (IDOR) — the bug class static scanners structurally miss — without ever editing your code.</p>
+  </div>
+</div>
+
+<section style="border-top:none; padding-top:40px;">
+  <div class="wrap prose">
+
+    <h2>What it does</h2>
+    <p>Static scanners trace where untrusted <b>input</b> flows. They can't tell you whether <code>Invoice::find($id)</code> <em>should</em> have been scoped to the logged-in user — that's a question about <b>intent</b>, and it's exactly the bug behind <b>IDOR / broken object-level authorization (BOLA)</b>, #1 in the OWASP API Security Top 10. This skill is the judgment layer for that gap.</p>
+    <ul class="feat">
+      <li><span class="ck">▹</span><div><b>Walks the authorization chain of every route</b> — authentication → authorization (policy/gate/<code>can:</code>/FormRequest) → object scoping → API Resource output.</div></li>
+      <li><span class="ck">▹</span><div><b>Catches the classic Laravel IDOR</b> — route-model binding (<code>update(Post $post)</code>) resolves <em>any</em> record by id but does <em>not</em> authorize it; a missing <code>authorize()</code> or owner scope is the hole.</div></li>
+      <li><span class="ck">▹</span><div><b>Anchored to ground truth</b> — every finding traces to a real <code>php artisan route:list --json</code> entry and a cited controller <code>file:line</code>. No anchor, no finding.</div></li>
+      <li><span class="ck">▹</span><div><b>Confidence-rated</b> — High (structural), Medium (depends on whether a model is owned), Low (hardening). Medium/Low are phrased as "verify", never asserted.</div></li>
+      <li><span class="ck">▹</span><div><b>False-positive aware</b> — recognizes every legitimate authorization pattern and knows public-by-design routes (login, webhooks with signatures), so it won't cry wolf.</div></li>
+      <li><span class="ck">▹</span><div><b>Per-route coverage map</b> — shows every route × every layer, so you see what's protected <em>and</em> what's checked, not just a list of negatives.</div></li>
+    </ul>
+
+    <div class="callout">
+      <b>Advise-only.</b> It reads files and runs one read-only command (<code>php artisan route:list --json</code>), then hands you findings + fix sketches. It never edits your routes, controllers, policies, or code — you apply every fix yourself.
+    </div>
+
+    <h2>Example output</h2>
+    <p>A real review run, condensed. The route inventory and cited lines are hard facts; whether a model is "owned" or a field is sensitive is the skill's judgment — stated as an assumption to confirm.</p>
+  </div>
+
+  <div class="wrap" style="margin-top:6px;">
+    <div class="report">
+      <div class="bar"><i></i><i></i><i></i><span>authorization-review — acme/billing-api</span></div>
+<pre><span class="h">## Summary</span>
+18 routes — <span class="r">🔴 3 exposed</span>  <span class="y">🟡 5 review</span>  <span class="o">🔵 2 hardening</span>  <span class="g">✅ 8 covered</span>
+
+<span class="h">## Coverage map</span>
+<span class="w">DELETE /api/invoices/{invoice}</span>  auth ✓  authz <span class="r">✗</span>  scoped <span class="r">✗</span>  policy ✓   <span class="r">🔴 exposed</span>
+<span class="w">PUT    /api/profile</span>            auth ✓  authz <span class="r">✗</span>  scoped n/a  <span class="r">🔴 authz off</span>
+<span class="w">GET    /api/orders/{order}</span>     auth ✓  authz ✓  scoped ✓    policy ✓   <span class="g">✅ covered</span>
+
+<span class="h">## 🔴 Verify &amp; fix now</span>
+<span class="w">DELETE /api/invoices/{invoice}</span> → InvoiceController@destroy:88
+  → implicit binding resolves ANY invoice; no authorize(), no owner scope → <span class="r">IDOR</span>
+  → Invoice is owned (invoices.user_id, User::invoices())  <span class="g">[High]</span>
+  → fix: <span class="g">$this->authorize('delete', $invoice)</span>  (InvoicePolicy::delete is missing)
+
+<span class="h">## 🟡 Review — needs your judgment</span>
+<span class="w">GET /api/invoices/{invoice}</span> → show() returns model, no authorize('view')  <span class="y">[Medium]</span>
+  → confirm: owned vs. team-shared → add authorize() or scope to the team</pre>
+    </div>
+  </div>
+
+  <div class="wrap prose">
+    <h2>The lanes</h2>
+  </div>
+  <div class="wrap">
+    <div class="lanes">
+      <div class="lane defer"><h4>🔴 Verify &amp; fix now</h4><p>High-confidence structural holes — no auth/authz/scope on owned data. Confirm with the cited line, add the check, add an authorization test.</p></div>
+      <div class="lane careful"><h4>🟡 Review</h4><p>Likely IDOR or data leak that depends on whether a model is owned or a field is sensitive. Decide the intent, then scope or authorize.</p></div>
+      <div class="lane harden"><h4>🔵 Hardening</h4><p>Defense-in-depth — missing policy, mass-assignment of ownership keys. Tidy when convenient.</p></div>
+    </div>
+  </div>
+
+  <div class="wrap prose">
+    <h2>Requirements</h2>
+    <table>
+      <tr><th>Requirement</th><th>Why</th></tr>
+      <tr><td>A Laravel project (<code>artisan</code> present)</td><td>the entry point; without it the skill stops</td></tr>
+      <tr><td>The app boots enough to run <code>php artisan route:list</code></td><td>the ground-truth route inventory</td></tr>
+      <tr><td>Readable <code>app/</code>, <code>routes/</code>, <code>app/Policies/</code></td><td>to walk the authorization chain</td></tr>
+    </table>
+    <p>If the app can't boot, the skill falls back to parsing <code>routes/*.php</code> and tells you the inventory is best-effort (lower confidence).</p>
+
+    <h2>Install &amp; use</h2>
+    <p>You don't need the whole library or a marketplace — drop just this one skill folder into your project's <code>.claude/skills/</code>:</p>
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i><span>your Laravel project</span></div>
+<pre><span class="c"># grab just this skill (per-project)</span>
+npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/maintenance/skills/<span class="g">laravel-authorization-review</span> \
+  .claude/skills/laravel-authorization-review</pre>
+    </div>
+    <p style="margin-top:14px;">Use <code>~/.claude/skills/</code> instead to install it <b>globally</b> (every project). No <code>npx</code>? <a data-gh="" href="#">Clone the repo</a> and copy the <code>maintenance/skills/laravel-authorization-review</code> folder into <code>.claude/skills/</code>. Want every skill at once? Add the <a data-gh="" href="#">plugin marketplace</a> (optional).</p>
+    <div class="steps" style="margin-top:18px;">
+      <div class="step"><div><b>Open Claude Code in your project</b><p>Start it inside your Laravel project folder (the one with <code>artisan</code>).</p></div></div>
+      <div class="step"><div><b>Ask in plain language</b><p>"review my authorization", "find IDOR in this app", "which routes have no auth?", "review authorization on the routes in this PR" — the skill activates automatically.</p></div></div>
+      <div class="step"><div><b>Review, then fix</b><p>You get a coverage map + confidence-rated findings with evidence. Nothing is changed for you — apply each fix on a branch, with authorization tests.</p></div></div>
+    </div>
+
+    <h2>Boundaries</h2>
+    <ul>
+      <li>does not edit routes, controllers, policies, or any code — you apply every fix;</li>
+      <li>does not invent a route, policy, or method — only what <code>route:list</code> and your files contain;</li>
+      <li>does not cover <b>Livewire / Filament / Nova</b> action authorization — those live outside the <code>route:list</code> anchor and use their own models (a future version may add them);</li>
+      <li>does not judge <b>business-logic</b> authorization (approval states, time-based rules) — flagged for a human;</li>
+      <li>does not catch IDOR via indirect references not visible in code, or infra/gateway authz.</li>
+    </ul>
+    <p>It is <b>not a pentest and not a security product</b>: a finding-free report means "nothing broken in the layers checked", not "secure".</p>
+
+    <p style="margin-top:36px; display:flex; gap:10px; flex-wrap:wrap;">
+      <a class="btn ghost" data-gh="/blob/main/maintenance/skills/laravel-authorization-review/USAGE.md" href="#">Full usage guide ↗</a>
+      <a class="btn ghost" data-gh="/blob/main/maintenance/skills/laravel-authorization-review/examples/report.md" href="#">Example report ↗</a>
+      <a class="btn ghost" data-gh="/blob/main/maintenance/skills/laravel-authorization-review/SKILL.md" href="#">SKILL.md source ↗</a>
+      <a class="btn ghost" href="../index.html">← Back to library</a>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="../index.html" style="margin-bottom:6px;"><span class="dot"></span> Laravel Maintenance Skills</a>
+      <div class="tag">// advise-only · MIT · a Claude Code skill library</div>
+    </div>
+    <div style="text-align:right;">
+      <div>Built by <a data-gh="" href="#">Artem Proshkovskyi</a> · Developer</div>
+      <div class="tag"><a data-gh="" href="#">GitHub</a> · <a data-gh="/blob/main/LICENSE" href="#">License</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var OWNER = "ArtemProshkovskiy"; // GitHub account that hosts this repo
+  var REPO  = "https://github.com/" + OWNER + "/laravel-maintenance-skills";
+  document.querySelectorAll('[data-gh]').forEach(function (a) {
+    a.href = REPO + (a.getAttribute('data-gh') || '');
+  });
+</script>
+</body>
+</html>

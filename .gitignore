@@ -12,3 +12,6 @@ npm-debug.log*
 # Local env
 .env
 .env.*
+
+# Local MCP / tooling config (developer-specific)
+.mcp.json

@@ -1,3 +1,4 @@
-Allow: /
+User-agent: *
+ccAllow: /
 
 Sitemap: https://artemproshkovskiy.github.io/laravel-maintenance-skills/sitemap.xml

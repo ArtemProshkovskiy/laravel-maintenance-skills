@@ -21,7 +21,7 @@
 <meta property="og:title" content="composer-dependency-triage — Laravel dependency triage for Claude Code" />
 <meta property="og:description" content="Turn composer outdated + audit into a prioritized action plan. Replacements for abandoned packages, the safest verified fix, and compatibility checks before any major. Advise-only." />
 <meta property="og:url" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/composer-dependency-triage.html" />
-<meta property="og:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.svg" />
+<meta property="og:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.png" />
 <meta property="og:image:alt" content="composer-dependency-triage — a Laravel dependency triage skill for Claude Code" />
 <meta property="og:locale" content="en_US" />
 
@@ -29,7 +29,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="composer-dependency-triage — Claude Code skill" />
 <meta name="twitter:description" content="Laravel-native Composer dependency triage: Do-now / Do-carefully / Defer plan, abandoned-package replacements, safest verified fix." />
-<meta name="twitter:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.svg" />
+<meta name="twitter:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.png" />
 <meta name="twitter:image:alt" content="composer-dependency-triage — Laravel dependency triage for Claude Code" />
 
 <!-- Structured data -->
@@ -159,8 +159,15 @@
     <p>Tuned for <b>Laravel</b>, but works on any Composer-managed PHP project.</p>
 
     <h2>Install &amp; use</h2>
-    <div class="steps">
-      <div class="step"><div><b>Add the library to Claude Code</b><p>Run <code>/plugin marketplace add ArtemProshkovskiy/laravel-maintenance-skills</code> then <code>/plugin install laravel-maintenance@laravel-maintenance-skills</code>.</p></div></div>
+    <p>You don't need the whole library or a marketplace — drop just this one skill folder into your project's <code>.claude/skills/</code>:</p>
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i><span>your Laravel project</span></div>
+<pre><span class="c"># grab just this skill (per-project)</span>
+npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/maintenance/skills/<span class="g">composer-dependency-triage</span> \
+  .claude/skills/composer-dependency-triage</pre>
+    </div>
+    <p style="margin-top:14px;">Use <code>~/.claude/skills/</code> instead to install it <b>globally</b> (every project). No <code>npx</code>? <a data-gh="" href="#">Clone the repo</a> and copy the <code>maintenance/skills/composer-dependency-triage</code> folder into <code>.claude/skills/</code>. Want every skill at once? Add the <a data-gh="" href="#">plugin marketplace</a> (optional).</p>
+    <div class="steps" style="margin-top:18px;">
       <div class="step"><div><b>Open Claude Code in your project</b><p>Start it inside the folder that has <code>composer.json</code>.</p></div></div>
       <div class="step"><div><b>Ask in plain language</b><p>"audit my composer dependencies", "are any of my packages abandoned?", "check my dependencies before upgrading Laravel" — the skill activates automatically.</p></div></div>
       <div class="step"><div><b>Review, then run</b><p>You get a Markdown plan with exact commands. Nothing is changed for you — run each on a branch, with tests.</p></div></div>

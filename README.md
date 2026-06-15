@@ -1,8 +1,8 @@
 # Laravel Maintenance Skills for Claude Code
 
-**An open, growing library of advise-only [Claude Code](https://claude.com/claude-code) skills for maintaining Laravel projects** — dependency hygiene, update triage, and upgrade readiness. Add the library once; pick the skill you need.
+**An open, growing library of advise-only [Claude Code](https://claude.com/claude-code) skills for maintaining Laravel projects** — Composer dependency triage, abandoned-package replacements, and **IDOR / broken-access-control authorization review**. You don't install the whole library — **grab just the one skill you need** (one folder, no marketplace required).
 
-> ### Composer tells you what's outdated. These skills tell you what to do about it.
+> ### Your tools tell you what's outdated and where data flows. These skills tell you what to do about it.
 
 🌐 **[Browse the skills on the project site →](https://ArtemProshkovskiy.github.io/laravel-maintenance-skills/)** · by [Artem Proshkovskyi](https://github.com/ArtemProshkovskiy)
 
@@ -33,9 +33,10 @@ composer dependencies") and the right skill activates, runs the real tools, and
 writes the report.
 
 Every skill in this repo is **advise-only**. It reads your project and runs
-**read-only** commands (`composer outdated`, `composer audit`, `composer why`),
-then hands you recommendations. It **never** edits your `composer.json`,
-lockfile, or code — you run every command yourself, after reviewing it.
+**read-only** commands (`composer outdated`, `composer audit`, `composer why`,
+`php artisan route:list`), then hands you recommendations. It **never** edits your
+`composer.json`, lockfile, routes, policies, or code — you run every command
+yourself, after reviewing it.
 
 ---
 
@@ -44,6 +45,7 @@ lockfile, or code — you run every command yourself, after reviewing it.
 | Skill | What it does | Status |
 |-------|--------------|--------|
 | [`composer-dependency-triage`](maintenance/skills/composer-dependency-triage/) | Turns `composer outdated` + `composer audit` output into a **Do-now / Do-carefully / Defer** plan, recommends **maintained replacements** for abandoned packages, and checks PHP/Laravel compatibility before any major bump. | ✅ Available |
+| [`laravel-authorization-review`](maintenance/skills/laravel-authorization-review/) | Walks the authorization chain of every route — middleware → policy/gate → query scoping → API Resource output — to find **IDOR / broken object-level authorization** (the class SAST misses). Anchored to `php artisan route:list`, with a per-route **coverage map** and confidence-rated findings. | ✅ Available |
 | `upgrade-orchestrator` | Plan and stage a Laravel framework upgrade end to end. | 🔜 Planned |
 
 The suite is built to grow — each new skill is a self-contained, advise-only
@@ -74,6 +76,12 @@ It is **not** a security product: vulnerability facts come from `composer audit`
 (the PHP Security Advisories database), not from a CVE database of its own. A
 clean audit means "nothing found", not "guaranteed secure".
 
+**Get just this skill** → [`maintenance/skills/composer-dependency-triage/`](maintenance/skills/composer-dependency-triage/) (full docs):
+```bash
+npx degit ArtemProshkovskiy/laravel-maintenance-skills/maintenance/skills/composer-dependency-triage \
+  .claude/skills/composer-dependency-triage
+```
+
 ---
 
 ## Example report (excerpt)
@@ -103,15 +111,84 @@ See the full reference output in
 
 ---
 
-## Install (Claude Code)
+## Featured: `laravel-authorization-review`
 
-This repo is a Claude Code **plugin marketplace**. Add the marketplace, then
-install the plugin — that gives you every skill in the suite at once.
+A Laravel-native **authorization & IDOR reviewer**. SAST tells you where data flows;
+this tells you where it flows to the *wrong user*. Point it at any Laravel project and it:
+
+- **Finds IDOR / broken object-level authorization (BOLA)** — #1 in the
+  [OWASP API Security Top 10](https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/)
+  and the bug class static scanners structurally miss, because it's about *intent*, not data flow.
+- **Walks every route's authorization chain** — authentication → authorization
+  (`policy` / `gate` / `can:` / FormRequest) → Eloquent query scoping → API Resource output.
+- **Anchored to ground truth** — every finding traces to a real
+  `php artisan route:list --json` entry and a cited controller `file:line`. No anchor, no finding.
+- **Catches the classic Laravel IDOR** — route-model binding (`update(Post $post)`) resolves
+  *any* record by id but does *not* authorize it; a missing `authorize()` or owner scope is the hole.
+- **False-positive aware** — recognizes every legitimate authorization pattern
+  (`Gate::authorize`, `authorizeResource`, `can:` middleware, spatie/laravel-permission, signed webhooks)
+  and knows public-by-design routes, so it won't cry wolf. Up to date with **Laravel 11 & 12** conventions.
+- **Produces a per-route coverage map** + confidence-rated findings (High / Medium / Low), so you see
+  what's protected *and* what was checked — not just a list of negatives.
+
+It is **not a pentest and not a security product**: a finding-free report means "nothing broken in the
+layers checked", not "secure".
+
+**Get just this skill** → [`maintenance/skills/laravel-authorization-review/`](maintenance/skills/laravel-authorization-review/) (full docs):
+```bash
+npx degit ArtemProshkovskiy/laravel-maintenance-skills/maintenance/skills/laravel-authorization-review \
+  .claude/skills/laravel-authorization-review
+```
+
+---
+
+## Install with Laravel Boost (recommended for Laravel apps)
+
+If your project uses [Laravel Boost](https://laravel.com/docs/boost), this is the
+native way. One command scans this repo, lists both skills, and lets you pick which to add:
+
+```bash
+php artisan boost:add-skill ArtemProshkovskiy/laravel-maintenance-skills
+```
+
+Boost installs the chosen skills into `.ai/skills/` and wires them into your agent
+(Claude Code, Cursor, etc.) on the next `boost:update`. Both skills —
+`composer-dependency-triage` and `laravel-authorization-review` — are discoverable
+this way and are listed in the [Laravel Skills directory](https://skills.laravel.cloud/).
+
+---
+
+## Install — just the skill you need (any Claude Code project)
+
+Each skill is a **self-contained folder**. You don't need the whole library or a marketplace:
+drop the one skill you want into your project's `.claude/skills/` and it activates on its own.
+
+**`laravel-authorization-review`** (IDOR / access-control review):
+```bash
+npx degit ArtemProshkovskiy/laravel-maintenance-skills/maintenance/skills/laravel-authorization-review \
+  .claude/skills/laravel-authorization-review
+```
+
+**`composer-dependency-triage`** (dependency audit + abandoned-package replacements):
+```bash
+npx degit ArtemProshkovskiy/laravel-maintenance-skills/maintenance/skills/composer-dependency-triage \
+  .claude/skills/composer-dependency-triage
+```
+
+Swap `.claude/skills/` for `~/.claude/skills/` to install a skill **globally** (available in every
+project). No `npx`? `git clone` the repo and `cp -r` the one skill folder into `.claude/skills/`.
+Each skill's own README has the full instructions.
+
+<details>
+<summary><b>Want every skill at once?</b> Add the plugin marketplace (optional)</summary>
+
+The repo is also a Claude Code plugin marketplace, so you can install the whole suite in one go:
 
 ```text
 /plugin marketplace add ArtemProshkovskiy/laravel-maintenance-skills
 /plugin install laravel-maintenance@laravel-maintenance-skills
 ```
+</details>
 
 ---
 
@@ -125,6 +202,9 @@ and ask in plain language — the skill recognizes the request and activates its
 - *"are any of my packages abandoned?"*
 - *"is it safe to bump this package?"*
 - *"check my dependencies before upgrading Laravel"*
+- *"review my authorization"* / *"find IDOR in this app"*
+- *"which routes have no auth?"* / *"is this endpoint scoped to the owner?"*
+- *"review authorization on this PR's new routes"*
 
 Nothing to configure. Claude Code finds `composer.json`, runs the right read-only
 commands, and assembles the report. For a full walkthrough see

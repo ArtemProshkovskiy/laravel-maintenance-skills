@@ -10,7 +10,7 @@
     {
       "name": "laravel-maintenance",
       "source": "./maintenance",
-      "description": "Skills for Laravel dependency hygiene, update triage, and upgrade readiness.",
+      "description": "Skills for Laravel dependency hygiene, update triage, upgrade readiness, and authorization/IDOR review.",
       "version": "0.1.0",
       "author": {
         "name": "Artem Proshkovskyi"

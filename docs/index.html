@@ -6,9 +6,9 @@
 <meta name="theme-color" content="#0c0c0f" />
 
 <!-- Primary SEO -->
-<title>Laravel Maintenance Skills — a Claude Code skill library by Artem Proshkovskyi</title>
-<meta name="description" content="Advise-only Claude Code skills for maintaining Laravel projects: Composer dependency triage, abandoned-package replacements, and framework upgrade readiness." />
-<meta name="keywords" content="Laravel skills, Claude Code skills, Laravel maintenance, composer dependency audit, composer outdated, composer audit, abandoned composer packages, Laravel upgrade, agent skills, PHP dependency management, Artem Proshkovskyi" />
+<title>Laravel Maintenance Skills — Claude Code skills for Laravel security &amp; dependencies</title>
+<meta name="description" content="Open, advise-only Claude Code skills that keep Laravel projects healthy: Composer dependency triage with abandoned-package replacements, and IDOR / broken-access-control authorization review. Reads real tool output, never edits your code." />
+<meta name="keywords" content="Laravel skills, Claude Code skills, Laravel security, Laravel IDOR, broken object level authorization, BOLA, broken access control, Laravel authorization review, composer dependency audit, composer outdated, composer audit, abandoned composer packages, Laravel upgrade, agent skills, PHP dependency management, Artem Proshkovskyi" />
 <meta name="author" content="Artem Proshkovskyi" />
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
 <link rel="canonical" href="https://artemproshkovskiy.github.io/laravel-maintenance-skills/" />
@@ -19,17 +19,20 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Laravel Maintenance Skills" />
 <meta property="og:title" content="Laravel Maintenance Skills — a Claude Code skill library" />
-<meta property="og:description" content="An open, growing library of advise-only Claude Code skills for keeping Laravel projects current and healthy. Browse the catalog and pick a skill." />
+<meta property="og:description" content="An open, growing library of advise-only Claude Code skills for Laravel: Composer dependency triage and IDOR / authorization review. Reads real tool output, recommends, never edits your code." />
 <meta property="og:url" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/" />
-<meta property="og:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.svg" />
+<meta property="og:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Laravel Maintenance Skills — a Claude Code skill library by Artem Proshkovskyi" />
 <meta property="og:locale" content="en_US" />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Laravel Maintenance Skills — Claude Code skill library" />
-<meta name="twitter:description" content="Advise-only Claude Code skills for Laravel project maintenance: dependency triage, abandoned-package replacements, upgrade readiness." />
-<meta name="twitter:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.svg" />
+<meta name="twitter:description" content="Advise-only Claude Code skills for Laravel: Composer dependency triage (with abandoned-package replacements) and IDOR / authorization review." />
+<meta name="twitter:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.png" />
 <meta name="twitter:image:alt" content="Laravel Maintenance Skills — a Claude Code skill library" />
 
 <!-- Structured data: the library as a collection + its author -->
@@ -42,7 +45,7 @@
       "@id": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/#website",
       "url": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/",
       "name": "Laravel Maintenance Skills",
-      "description": "An open library of advise-only Claude Code skills for maintaining Laravel projects.",
+      "description": "An open library of advise-only Claude Code skills for maintaining Laravel projects: Composer dependency triage and IDOR / authorization review.",
       "author": { "@id": "https://github.com/ArtemProshkovskiy#person" },
       "inLanguage": "en"
     },
@@ -74,6 +77,21 @@
               "license": "https://opensource.org/licenses/MIT",
               "softwareVersion": "0.1.0"
             }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "laravel-authorization-review",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any (Claude Code)",
+              "description": "Reviews Laravel HTTP authorization for IDOR / broken object-level authorization: walks each route's middleware, policy/gate, Eloquent query scoping, and API Resource output, anchored to php artisan route:list, and returns a per-route coverage map with confidence-rated findings. Advise-only.",
+              "url": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/laravel-authorization-review.html",
+              "author": { "@id": "https://github.com/ArtemProshkovskiy#person" },
+              "license": "https://opensource.org/licenses/MIT",
+              "softwareVersion": "0.1.0"
+            }
           }
         ]
       }
@@ -91,7 +109,7 @@
     {
       "@type": "Question",
       "name": "How do I audit Composer dependencies in a Laravel project?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Install the library in Claude Code, open your project, and ask “audit my composer dependencies.” The composer-dependency-triage skill runs composer outdated and composer audit, then returns a prioritized Do-now / Do-carefully / Defer plan with exact commands." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Grab just the composer-dependency-triage skill into your project's .claude/skills/ folder with npx degit (no marketplace or whole-library install needed), open it in Claude Code, and ask “audit my composer dependencies.” The skill runs composer outdated and composer audit, then returns a prioritized Do-now / Do-carefully / Defer plan with exact commands." }
     },
     {
       "@type": "Question",
@@ -107,6 +125,21 @@
       "@type": "Question",
       "name": "Does it change my composer.json or run updates?",
       "acceptedAnswer": { "@type": "Answer", "text": "No. It is advise-only: it reads files and runs read-only commands, then hands you a plan. It never edits composer.json, the lockfile, or code — you run every command yourself." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I find IDOR / broken access control in a Laravel app?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Open your project in Claude Code and ask “review my authorization” or “find IDOR in this app.” The laravel-authorization-review skill walks every route’s authorization chain — middleware, policy/gate, Eloquent query scoping, and API Resource output — anchored to php artisan route:list, and returns a per-route coverage map with confidence-rated findings. It targets broken object-level authorization (BOLA), #1 in the OWASP API Security Top 10 — the bug class static scanners structurally miss." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can it review just the routes changed in a pull request?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Ask it to review authorization on a PR’s new routes and it intersects the route inventory with the changed controllers and route files, so you sanity-check new endpoints before merge instead of re-scanning the whole app." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do these skills work on Laravel 11 and 12?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The skills recognize current Laravel conventions — Gate::authorize(), the AuthorizesRequests trait, policy auto-discovery, the UsePolicy attribute, and policy registration in AppServiceProvider (Laravel 11+) as well as the older AuthServiceProvider — and check a package’s real PHP/Laravel constraints before recommending any major bump." }
     }
   ]
 }
@@ -131,11 +164,11 @@
   <div class="wrap">
     <span class="eyebrow">⚡ A growing skill library · Laravel-native · Claude Code</span>
     <h1>A skills library to keep<br><span class="grad">Laravel projects healthy.</span></h1>
-    <p class="lede">Pick a skill, drop it into Claude Code, and turn raw Composer output into a clear, prioritized maintenance plan. Advise-only — it recommends, you stay in control.</p>
+    <p class="lede">Pick a skill, drop it into Claude Code, and turn raw tool output — <code>composer audit</code>, <code>route:list</code> — into a clear, prioritized plan: safe dependency updates, abandoned-package replacements, and IDOR / authorization findings. Advise-only — it recommends, you stay in control.</p>
     <p class="pull">Composer tells you what's outdated.<br><span>// this library tells you what to do about it.</span></p>
     <div class="cta-row">
       <a class="btn" href="#catalog">Browse the catalog</a>
-      <a class="btn ghost" href="#install">Install in Claude Code</a>
+      <a class="btn ghost" href="#install">Grab a skill</a>
     </div>
     <div class="byline">
       <span class="av">AP</span>
@@ -183,6 +216,22 @@
         </div>
       </a>
 
+      <a class="scard" href="skills/laravel-authorization-review.html"
+         data-name="laravel-authorization-review"
+         data-cat="security"
+         data-keywords="authorization idor bola broken access control policy gate route scoping owner sanctum laravel security review">
+        <div class="row">
+          <span class="mono-name">laravel-authorization-review</span>
+          <span class="badge ok" style="margin-left:auto;">● available</span>
+        </div>
+        <p class="blurb">Finds <b>IDOR / broken object-level authorization</b> — the class SAST misses. Walks each route's chain (middleware → policy/gate → query scoping → API Resource output), anchored to <code>php artisan route:list</code>, and returns a per-route coverage map with confidence-rated findings.</p>
+        <div class="meta">
+          <span class="tagpill">security</span>
+          <span class="tagpill">v0.1.0</span>
+          <span class="more">Read more →</span>
+        </div>
+      </a>
+
       <div class="scard" style="opacity:.7;"
          data-name="upgrade-orchestrator"
          data-cat="upgrade"
@@ -207,12 +256,12 @@
 <section id="how">
   <div class="wrap">
     <p class="kicker">How it works</p>
-    <h2>The judgment layer Composer doesn't have</h2>
-    <p class="sub">The tools you already have detect facts; these skills decide what to do with them — and never touch your project while doing it.</p>
+    <h2>The judgment layer your tools don't have</h2>
+    <p class="sub">Scanners and Composer detect facts; these skills decide what to <em>do</em> with them — reasoning across your code the way a senior reviewer would, and never touching your project while doing it. Every skill in the library follows the same three principles.</p>
     <div class="grid cols-3">
-      <div class="card"><span class="ico">📋</span><h3>Reads ground truth</h3><p>Runs the real <code>composer outdated</code> / <code>audit</code> / <code>why</code> and reads the output — never invents a version or a CVE.</p></div>
-      <div class="card"><span class="ico">🧠</span><h3>Applies judgment</h3><p>Classifies, prioritizes, recommends replacements for abandoned packages, and verifies the safest fix version exists.</p></div>
-      <div class="card" style="border-color: rgba(255,59,47,.35);"><span class="ico">🛡️</span><h3>Advise-only</h3><p>Emits a plan with exact commands. It never edits your <code>composer.json</code>, lockfile, or code — you run everything.</p></div>
+      <div class="card"><span class="ico">📋</span><h3>Reads ground truth</h3><p>Runs the real tools — <code>composer outdated</code> / <code>audit</code>, <code>php artisan route:list</code> — and reasons from their output. Never invents a version, a CVE, or a route.</p></div>
+      <div class="card"><span class="ico">🧠</span><h3>Applies judgment</h3><p>Classifies and prioritizes by confidence: the safest fix for a CVE, a maintained replacement for an abandoned package, the route where an IDOR actually leaks owned data.</p></div>
+      <div class="card" style="border-color: rgba(255,59,47,.35);"><span class="ico">🛡️</span><h3>Advise-only</h3><p>Emits a prioritized plan with evidence and exact commands. It never edits your <code>composer.json</code>, routes, policies, or code — you stay in control and apply every fix.</p></div>
     </div>
   </div>
 </section>
@@ -224,7 +273,7 @@
     <h2>Frequently asked questions</h2>
 
     <h3>How do I audit Composer dependencies in a Laravel project?</h3>
-    <p>Install the library in Claude Code, open your project, and ask &ldquo;audit my composer dependencies.&rdquo; The <code>composer-dependency-triage</code> skill runs <code>composer outdated</code> and <code>composer audit</code>, then returns a prioritized Do-now / Do-carefully / Defer plan with exact commands.</p>
+    <p>Grab just the <code>composer-dependency-triage</code> skill into your project (<code>npx degit ArtemProshkovskiy/laravel-maintenance-skills/maintenance/skills/composer-dependency-triage .claude/skills/composer-dependency-triage</code>), open it in Claude Code, and ask &ldquo;audit my composer dependencies.&rdquo; The skill runs <code>composer outdated</code> and <code>composer audit</code>, then returns a prioritized Do-now / Do-carefully / Defer plan with exact commands. No marketplace or whole-library install required.</p>
 
     <h3>What can I use to replace an abandoned Composer package?</h3>
     <p>The skill recommends a maintained, community-standard successor for abandoned packages &mdash; even when Composer only prints &ldquo;No replacement was suggested&rdquo; &mdash; and tells you whether the migration is drop-in or an API change. Every replacement is marked &ldquo;verify before adopting.&rdquo;</p>
@@ -234,6 +283,15 @@
 
     <h3>Does it change my composer.json or run updates?</h3>
     <p>No. It is advise-only: it reads files and runs read-only commands, then hands you a plan. It never edits <code>composer.json</code>, the lockfile, or code &mdash; you run every command yourself.</p>
+
+    <h3>How do I find IDOR / broken access control in a Laravel app?</h3>
+    <p>Open your project in Claude Code and ask &ldquo;review my authorization&rdquo; or &ldquo;find IDOR in this app.&rdquo; The <code>laravel-authorization-review</code> skill walks every route&rsquo;s authorization chain &mdash; middleware &rarr; policy/gate &rarr; Eloquent query scoping &rarr; API Resource output &mdash; anchored to <code>php artisan route:list</code>, and returns a per-route coverage map with confidence-rated findings. It targets broken object-level authorization (BOLA), #1 in the OWASP API Security Top 10 &mdash; the bug class static scanners structurally miss.</p>
+
+    <h3>Can it review just the routes changed in a pull request?</h3>
+    <p>Yes. Ask it to &ldquo;review authorization on this PR&rsquo;s new routes&rdquo; and it intersects the route inventory with the changed controllers and route files, so you sanity-check new endpoints before merge instead of re-scanning the whole app.</p>
+
+    <h3>Do these skills work on Laravel 11 and 12?</h3>
+    <p>Yes. The skills recognize current Laravel conventions &mdash; <code>Gate::authorize()</code>, the <code>AuthorizesRequests</code> trait, policy auto-discovery, the <code>#[UsePolicy]</code> attribute, and policy registration in <code>AppServiceProvider</code> (Laravel 11+) as well as the older <code>AuthServiceProvider</code> &mdash; and check a package&rsquo;s real PHP/Laravel constraints before recommending any major bump.</p>
   </div>
 </section>
 
@@ -241,19 +299,31 @@
 <section id="install">
   <div class="wrap">
     <p class="kicker">Get started</p>
-    <h2>Add the library to Claude Code</h2>
-    <p class="sub">The repo is a Claude Code plugin marketplace. Add it once and every skill in the library becomes available; new skills arrive as you update.</p>
+    <h2>Grab just the skill you need</h2>
+    <p class="sub">You don't install the whole library. Each skill is a self-contained folder — drop the one you want into your project's <code>.claude/skills/</code> and it activates on its own. No marketplace required.</p>
     <div class="term">
-      <div class="bar"><i></i><i></i><i></i><span>Claude Code</span></div>
-<pre><span class="c"># 1 · add the marketplace</span>
-<span class="p">/plugin</span> marketplace add <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills
+      <div class="bar"><i></i><i></i><i></i><span>your Laravel project</span></div>
+<pre><span class="c"># Authorization / IDOR review — grab just this skill</span>
+npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/maintenance/skills/<span class="g">laravel-authorization-review</span> \
+  .claude/skills/laravel-authorization-review
 
-<span class="c"># 2 · install the plugin (the whole library)</span>
-<span class="p">/plugin</span> install <span class="g">laravel-maintenance@laravel-maintenance-skills</span>
+<span class="c"># …or the dependency-triage skill instead</span>
+npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/maintenance/skills/<span class="g">composer-dependency-triage</span> \
+  .claude/skills/composer-dependency-triage
 
-<span class="c"># 3 · open Claude Code in your Laravel project and ask</span>
+<span class="c"># then open Claude Code in the project and just ask</span>
+<span class="o">review my authorization / find IDOR in this app</span>
 <span class="o">audit my composer dependencies</span></pre>
     </div>
+    <p class="sub" style="margin-top:18px;">Use <code>~/.claude/skills/</code> instead to install a skill <b>globally</b> (every project). No <code>npx</code>? <a data-gh="" href="#">Clone the repo</a> and copy the one skill folder. Each skill page has full instructions.</p>
+    <details style="margin-top:14px;">
+      <summary style="cursor:pointer; color:var(--muted);">Want every skill at once? Add the plugin marketplace (optional)</summary>
+      <div class="term" style="margin-top:12px;">
+        <div class="bar"><i></i><i></i><i></i><span>Claude Code</span></div>
+<pre><span class="p">/plugin</span> marketplace add <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills
+<span class="p">/plugin</span> install <span class="g">laravel-maintenance@laravel-maintenance-skills</span></pre>
+      </div>
+    </details>
   </div>
 </section>
 
