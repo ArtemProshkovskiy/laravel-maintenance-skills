@@ -8,22 +8,6 @@
 
 ---
 
-## The problem
-
-Every Laravel project drifts. Packages fall behind, advisories pile up, a few
-dependencies quietly get abandoned, and a framework upgrade keeps getting pushed
-to "later". The tools you already have only get you halfway:
-
-- `composer outdated` lists current-vs-latest versions — but no priority, no risk, no plan.
-- `composer audit` lists known advisories — but doesn't tell you what to do, or in what order.
-
-What's missing is the **judgment layer**: the part that turns that raw output into
-a prioritized, human-readable **action plan** — what to fix now, what to approach
-carefully, what to defer — with the exact commands and the reasoning behind each call.
-
-That's what these skills add to Claude Code.
-
----
 
 ## What a skill is here
 
