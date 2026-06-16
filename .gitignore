@@ -20,3 +20,7 @@ npm-debug.log*
 /vendor/
 /composer.json
 /composer.lock
+
+# Local artifacts from `npx skills add` (testing installs, not library content)
+/.agents/
+/skills-lock.json
