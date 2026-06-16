@@ -77,7 +77,7 @@ Audited 19 direct dependencies — 🔴 3 vulnerable, 🟠 3 abandoned, 🟡 9 m
 ## 🔴 Security — Do now
 | Package             | Installed | Advisory      | Fixed in | Action                                  |
 |---------------------|-----------|---------------|----------|-----------------------------------------|
-| phpseclib/phpseclib | 2.0.30    | 7 advisories  | 2.0.54   | drop-in within 2.x — do NOT jump to 3.x |
+| acme/crypto         | 2.0.30    | 4 advisories  | 2.0.54   | drop-in within 2.x — do NOT jump to 3.x |
 
 ## 🟠 Abandoned — Do carefully
 laravelcollective/html → spatie/laravel-html  (API change — audit your Blade forms)

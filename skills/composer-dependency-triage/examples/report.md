@@ -108,7 +108,7 @@ composer update guzzlehttp/guzzle nesbot/carbon spatie/laravel-permission league
 | Package | Installed | Latest | Jump | Compatibility | Verdict |
 |---------|-----------|--------|------|---------------|---------|
 | `laravel/framework` | 10.48.2 | 11.x | major | needs PHP 8.2+ (project on 8.1) and is framework-coupled | **🔒 Defer** — dedicated Laravel upgrade |
-| `league/flysystem` | 3.15.0 | 4.x | major | **latest requires PHP 8.2** — project on 8.1 | **🔒 Blocked on upgrade** — bump PHP first |
+| `league/flysystem` | 3.x | 4.x | major | **latest requires PHP 8.2** — project on 8.1 | **🔒 Blocked on upgrade** — bump PHP first |
 | `phpunit/phpunit` | 10.5.0 | 11.x | major | compatible with PHP 8.1 | **⚠️ Do carefully** (dev) |
 | `pestphp/pest` | 2.34.0 | 3.x | major | tracks PHPUnit major | **⚠️ Do carefully** (dev) — do alongside PHPUnit |
 
