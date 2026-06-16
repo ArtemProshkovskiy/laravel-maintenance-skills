@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0c0c0f" />
+
+<!-- Primary SEO -->
+<title>laravel-production-readiness-review — Laravel pre-deploy / config:cache audit skill for Claude Code</title>
+<meta name="description" content="Claude Code skill: catches the 'works locally, breaks in production' bugs in Laravel before deploy — env() outside config/ (null after config:cache), closure routes that break route:cache, unsafe .env values, and leaked secrets. Anchored to real .env / route:list / git. Advise-only." />
+<meta name="keywords" content="Laravel production readiness, config:cache env null, env() outside config, route:cache closure fails, APP_DEBUG true production, .env leaked git, .env.example secrets, Laravel deploy checklist, pre-deploy audit, Claude Code skill, Artem Proshkovskyi" />
+<meta name="author" content="Artem Proshkovskyi" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+<link rel="canonical" href="https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/laravel-production-readiness-review.html" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ff3b2f'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="../assets/style.css" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Laravel Maintenance Skills" />
+<meta property="og:title" content="laravel-production-readiness-review — Laravel pre-deploy audit for Claude Code" />
+<meta property="og:description" content="Catch the 'works locally, breaks in production' bugs before deploy: env() outside config/, closure routes vs route:cache, unsafe .env values, leaked secrets. Anchored to real .env / route:list / git. Advise-only." />
+<meta property="og:url" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/laravel-production-readiness-review.html" />
+<meta property="og:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.png" />
+<meta property="og:image:alt" content="laravel-production-readiness-review — a Laravel pre-deploy audit skill for Claude Code" />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="laravel-production-readiness-review — Claude Code skill" />
+<meta name="twitter:description" content="Laravel pre-deploy audit: env() outside config/ (null after config:cache), closure routes vs route:cache, unsafe .env values, leaked secrets." />
+<meta name="twitter:image" content="https://artemproshkovskiy.github.io/laravel-maintenance-skills/assets/og.png" />
+<meta name="twitter:image:alt" content="laravel-production-readiness-review — Laravel pre-deploy audit for Claude Code" />
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "laravel-production-readiness-review",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (Claude Code; Laravel with artisan)",
+      "softwareVersion": "0.1.0",
+      "description": "A Claude Code skill that audits the dev-vs-production gap in a Laravel app before deploy: env() called outside config/ (returns null after config:cache), closure routes that break route:cache, unsafe .env values (APP_DEBUG=true, empty APP_KEY, sync queue, APP_URL=localhost), secret exposure (.env tracked in git, real values in .env.example), .env drift, and leftover debug calls. Anchored to real .env / config / route:list / git. Advise-only.",
+      "url": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/laravel-production-readiness-review.html",
+      "license": "https://opensource.org/licenses/MIT",
+      "author": { "@type": "Person", "name": "Artem Proshkovskyi", "url": "https://github.com/ArtemProshkovskiy" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Skills library", "item": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/" },
+        { "@type": "ListItem", "position": 2, "name": "laravel-production-readiness-review", "item": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/laravel-production-readiness-review.html" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span> Laravel Maintenance Skills <small>// for Claude Code</small></a>
+    <div class="links">
+      <a href="../index.html#catalog">Catalog</a>
+      <a href="../index.html#install">Install</a>
+      <a class="btn ghost sm" data-gh="/tree/main/skills/laravel-production-readiness-review" href="#">View source ↗</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="crumbs">
+    <a href="../index.html">Skills library</a><span class="sep">/</span><span>laravel-production-readiness-review</span>
+  </div>
+
+  <div class="detail-head">
+    <h1>laravel-production-readiness-review</h1>
+    <div class="meta">
+      <span class="badge ok">● available</span>
+      <span class="tagpill">deployment</span>
+      <span class="tagpill">production</span>
+      <span class="tagpill">security</span>
+      <span class="tagpill">v0.1.0</span>
+      <span class="tagpill">MIT</span>
+    </div>
+    <p class="lede" style="margin:0;">Point it at a Laravel project before deploy and it catches the "works locally, breaks in production" bugs — anchored to your real <code>.env</code>, config, <code>route:list</code>, and git. It never edits your project.</p>
+  </div>
+</div>
+
+<section style="border-top:none; padding-top:40px;">
+  <div class="wrap prose">
+
+    <h2>What it does</h2>
+    <p>Local development hides a whole class of bugs. Code runs fine on your machine — no caches, <code>APP_DEBUG=true</code>, one server — then breaks or leaks the moment it hits production and the deploy runs <code>php artisan config:cache</code> / <code>route:cache</code>. This skill audits that gap before you ship.</p>
+    <ul class="feat">
+      <li><span class="ck">▹</span><div><b>The flagship: <code>env()</code> outside <code>config/</code></b> — returns <code>null</code> after <code>config:cache</code>, silently. <b>No other tool audits this.</b></div></li>
+      <li><span class="ck">▹</span><div><b>Closure routes</b> — break <code>php artisan route:cache</code> at deploy.</div></li>
+      <li><span class="ck">▹</span><div><b>Unsafe <code>.env</code> values</b> — <code>APP_DEBUG=true</code>, empty <code>APP_KEY</code>, <code>QUEUE=sync</code>, <code>APP_URL=localhost</code>, and more.</div></li>
+      <li><span class="ck">▹</span><div><b>Leaked secrets</b> — <code>.env</code> tracked in git, real values in <code>.env.example</code>.</div></li>
+      <li><span class="ck">▹</span><div><b>Drift & debug leftovers</b> — keys missing from <code>.env.example</code>; stray <code>dd()</code>/<code>dump()</code>/<code>ray()</code>.</div></li>
+      <li><span class="ck">▹</span><div><b>Env-gated, so it won't cry wolf</b> — reads <code>APP_ENV</code> first; on a dev file the value checks become 🟡 "if these are production values".</div></li>
+    </ul>
+
+    <div class="callout">
+      <b>Only advises.</b> It reads files and runs read-only commands (<code>php artisan route:list --json</code>, read-only git), then hands you a plan. It never edits your <code>.env</code>, config, code, or <code>.gitignore</code> — you apply every fix yourself.
+    </div>
+
+    <h2>Example output</h2>
+    <p>A real run, shortened. Every finding cites a real anchor — a <code>file:line</code>, a <code>.env</code> key, or a git state — with the exact fix.</p>
+  </div>
+
+  <div class="wrap" style="margin-top:6px;">
+    <div class="report">
+      <div class="bar"><i></i><i></i><i></i><span>production-readiness — acme/store</span></div>
+<pre><span class="h">## 🔴 Not safe to deploy — 4 blockers</span>
+Laravel 12 · APP_ENV=production — <span class="r">🔴 4 break/leak</span>  <span class="y">🟡 3 review</span>  <span class="o">🔵 3 hardening</span>  <span class="g">✅ 5 covered</span>
+
+<span class="h">## 🔴 Fix now</span>
+<span class="w">app/Services/PaymentGateway.php:20</span>  env('STRIPE_SECRET') → <span class="r">null after config:cache</span>
+  <span class="g">fix: config('services.stripe.secret')  (move env() into config/services.php)</span>
+<span class="w">.env:3</span>   APP_DEBUG=true on a production .env → <span class="r">leaks stack traces</span>  <span class="g">→ APP_DEBUG=false</span>
+<span class="w">.env</span>     tracked in git (git ls-files) → <span class="r">secrets committed</span>  <span class="g">→ git rm --cached .env + rotate</span>
+
+<span class="h">## 🟡 Review</span>
+<span class="w">routes/web.php:42</span>  closure route → <span class="y">route:cache fails</span>  <span class="g">→ move to a controller</span>
+<span class="w">.env:21</span>  QUEUE_CONNECTION=sync  <span class="o">(fine if no async jobs)</span></pre>
+    </div>
+  </div>
+
+  <div class="wrap prose">
+    <h2>The lanes</h2>
+  </div>
+  <div class="wrap">
+    <div class="lanes">
+      <div class="lane defer"><h4>🔴 Fix now</h4><p>Breaks or leaks on production right now — <code>env()</code> nulled by <code>config:cache</code>, <code>APP_DEBUG=true</code>, a tracked <code>.env</code>. Apply the fix before deploy.</p></div>
+      <div class="lane careful"><h4>🟡 Review</h4><p>Value or code wrong for prod, or depends on an assumption (is this the prod <code>.env</code>? a real secret?). Decide, then fix.</p></div>
+      <div class="lane harden"><h4>🔵 Hardening</h4><p><code>.env</code> drift, debug leftovers, log level. Tidy when convenient.</p></div>
+    </div>
+  </div>
+
+  <div class="wrap prose">
+    <h2>Requirements</h2>
+    <table>
+      <tr><th>Requirement</th><th>Why</th></tr>
+      <tr><td>A Laravel project (<code>artisan</code> present)</td><td>the entry point; without it the skill stops</td></tr>
+      <tr><td><code>php artisan route:list</code> runnable</td><td>to find closure routes (static fallback if it can't boot)</td></tr>
+      <tr><td>Readable <code>.env</code>, <code>.env.example</code>, <code>config/</code>, code</td><td>the facts it audits</td></tr>
+      <tr><td>A git repo <em>(recommended)</em></td><td>to check whether <code>.env</code> is tracked / ignored</td></tr>
+    </table>
+
+    <h2>Install &amp; use</h2>
+    <p>No marketplace or full library needed — drop this one folder into your project's <code>.claude/skills/</code>:</p>
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i><span>your Laravel project</span></div>
+<pre><span class="c"># grab just this skill (per-project)</span>
+npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/skills/<span class="g">laravel-production-readiness-review</span> \
+  .claude/skills/laravel-production-readiness-review</pre>
+    </div>
+    <p style="margin-top:14px;">Use <code>~/.claude/skills/</code> instead to install it <b>globally</b> (every project). No <code>npx</code>? <a data-gh="" href="#">Clone the repo</a> and copy the <code>skills/laravel-production-readiness-review</code> folder into <code>.claude/skills/</code>. Want every skill at once? Add the <a data-gh="" href="#">plugin marketplace</a> (optional).</p>
+    <div class="steps" style="margin-top:18px;">
+      <div class="step"><div><b>Open Claude Code in your project</b><p>Start it inside your Laravel project folder (the one with <code>artisan</code>).</p></div></div>
+      <div class="step"><div><b>Ask in plain language</b><p>"is this safe to deploy?", "env is null after deploy", "did I leak any secrets?" — the skill activates automatically.</p></div></div>
+      <div class="step"><div><b>Read it, then fix</b><p>You get a 🔴/🟡/🔵 plan with <code>file:line</code> and the exact fix. Nothing is changed for you — apply each on a branch.</p></div></div>
+    </div>
+
+    <h2>Boundaries</h2>
+    <ul>
+      <li>does not edit <code>.env</code>, config, code, or <code>.gitignore</code> — you apply every fix;</li>
+      <li>does not see runtime env vars set outside <code>.env</code> (real server, CI, secrets manager);</li>
+      <li>does not check web-server config, file permissions, or TLS — it reads the repo, not the box;</li>
+      <li>does not cover performance, dependency vulnerabilities, or authorization — those are the other skills in this library.</li>
+    </ul>
+    <p>It is <b>not a deploy tool and not a security product</b>: a clean report means "nothing found in the checks I ran", <b>not</b> "safe to deploy".</p>
+
+    <p style="margin-top:36px; display:flex; gap:10px; flex-wrap:wrap;">
+      <a class="btn ghost" data-gh="/blob/main/skills/laravel-production-readiness-review/USAGE.md" href="#">Full usage guide ↗</a>
+      <a class="btn ghost" data-gh="/blob/main/skills/laravel-production-readiness-review/examples/report.md" href="#">Example report ↗</a>
+      <a class="btn ghost" data-gh="/blob/main/skills/laravel-production-readiness-review/SKILL.md" href="#">SKILL.md source ↗</a>
+      <a class="btn ghost" href="../index.html">← Back to library</a>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="../index.html" style="margin-bottom:6px;"><span class="dot"></span> Laravel Maintenance Skills</a>
+      <div class="tag">// advise-only · MIT · a Claude Code skill library</div>
+    </div>
+    <div style="text-align:right;">
+      <div>Built by <a data-gh="" href="#">Artem Proshkovskyi</a> · Developer</div>
+      <div class="tag"><a data-gh="" href="#">GitHub</a> · <a data-gh="/blob/main/LICENSE" href="#">License</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var OWNER = "ArtemProshkovskiy"; // GitHub account that hosts this repo
+  var REPO  = "https://github.com/" + OWNER + "/laravel-maintenance-skills";
+  document.querySelectorAll('[data-gh]').forEach(function (a) {
+    a.href = REPO + (a.getAttribute('data-gh') || '');
+  });
+</script>
+</body>
+</html>

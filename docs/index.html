@@ -92,6 +92,21 @@
               "license": "https://opensource.org/licenses/MIT",
               "softwareVersion": "0.1.0"
             }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "laravel-production-readiness-review",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any (Claude Code)",
+              "description": "Audits the dev-vs-production gap in a Laravel app before deploy: env() called outside config/ (returns null after config:cache), closure routes that break route:cache, unsafe .env values (APP_DEBUG=true, empty APP_KEY, sync queue), and secret exposure (.env tracked in git, real values in .env.example). Anchored to real .env / config / route:list / git. Advise-only.",
+              "url": "https://artemproshkovskiy.github.io/laravel-maintenance-skills/skills/laravel-production-readiness-review.html",
+              "author": { "@id": "https://github.com/ArtemProshkovskiy#person" },
+              "license": "https://opensource.org/licenses/MIT",
+              "softwareVersion": "0.1.0"
+            }
           }
         ]
       }
@@ -193,6 +208,7 @@
         <button class="chip active" data-cat="all">All</button>
         <button class="chip" data-cat="dependencies">Dependencies</button>
         <button class="chip" data-cat="security">Security</button>
+        <button class="chip" data-cat="deployment">Deployment</button>
         <button class="chip" data-cat="upgrade">Upgrade</button>
       </div>
     </div>
@@ -226,6 +242,23 @@
         </div>
         <p class="blurb">Finds <b>IDOR / broken access control</b> — the bug class scanners miss. Checks every route's chain (login → permission → owner check → API output) against <code>php artisan route:list</code> and shows what's covered and what's not.</p>
         <div class="meta">
+          <span class="tagpill">security</span>
+          <span class="tagpill">v0.1.0</span>
+          <span class="more">Read more →</span>
+        </div>
+      </a>
+
+      <a class="scard" href="skills/laravel-production-readiness-review.html"
+         data-name="laravel-production-readiness-review"
+         data-cat="deployment security"
+         data-keywords="production readiness deploy config cache env null route cache closure app_debug secret leak gitignore env example drift laravel">
+        <div class="row">
+          <span class="mono-name">laravel-production-readiness-review</span>
+          <span class="badge ok" style="margin-left:auto;">● available</span>
+        </div>
+        <p class="blurb">Catches <b>"works locally, breaks in production"</b> bugs before deploy: <code>env()</code> that <code>config:cache</code> nulls out, closure routes that break <code>route:cache</code>, unsafe <code>.env</code> values, and leaked secrets — anchored to your real <code>.env</code> / <code>route:list</code> / git.</p>
+        <div class="meta">
+          <span class="tagpill">deployment</span>
           <span class="tagpill">security</span>
           <span class="tagpill">v0.1.0</span>
           <span class="more">Read more →</span>

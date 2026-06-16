@@ -29,6 +29,10 @@ What to do about your Composer dependencies. Turns `composer outdated` + `compos
 
 Finds IDOR / broken object-level authorization (BOLA) — the bug class static scanners miss. Checks the full authorization chain on every route and shows what's covered and what's not. → [README](skills/laravel-authorization-review/README.md)
 
+### [laravel-production-readiness-review](skills/laravel-production-readiness-review/README.md)
+
+Catches the "works locally, breaks/leaks in production" bugs before deploy: `env()` that `config:cache` will null out, closure routes that break `route:cache`, unsafe `.env` values, and leaked secrets. → [README](skills/laravel-production-readiness-review/README.md)
+
 ---
 
 ## Install
