@@ -27,3 +27,6 @@ npm-debug.log*
 
 # Local development notes / roadmap — never pushed
 /_dev/
+
+# Local authoring-context for coding — never pushed
+/CLAUDE.md
