@@ -14,6 +14,18 @@ description: >-
   dependencies, checks PHP/Laravel compatibility before recommending majors, and
   emits a Do-now / Do-carefully / Defer plan. Advise-only: never edits files.
 license: MIT
+compatible_agents:
+  - Claude Code
+  - Cursor
+  - Codex
+tags:
+  - laravel
+  - php
+  - composer
+  - dependencies
+  - security
+  - maintenance
+  - upgrade
 compatibility: >-
   Requires a PHP project with a composer.json and Composer on PATH. Uses
   `composer outdated`, `composer audit` (Composer 2.4+), and `composer why`.

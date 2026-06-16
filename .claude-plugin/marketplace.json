@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "laravel-maintenance",
-      "source": "./maintenance",
+      "source": ".",
       "description": "Skills for Laravel dependency hygiene, update triage, upgrade readiness, and authorization/IDOR review.",
       "version": "0.1.0",
       "author": {

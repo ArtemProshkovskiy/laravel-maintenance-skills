@@ -15,3 +15,8 @@ npm-debug.log*
 
 # Local MCP / tooling config (developer-specific)
 .mcp.json
+
+# Laravel Boost dev tooling (not part of the skills library)
+/vendor/
+/composer.json
+/composer.lock

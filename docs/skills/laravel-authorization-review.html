@@ -68,7 +68,7 @@
     <div class="links">
       <a href="../index.html#catalog">Catalog</a>
       <a href="../index.html#install">Install</a>
-      <a class="btn ghost sm" data-gh="/tree/main/maintenance/skills/laravel-authorization-review" href="#">View source ↗</a>
+      <a class="btn ghost sm" data-gh="/tree/main/skills/laravel-authorization-review" href="#">View source ↗</a>
     </div>
   </div>
 </nav>
@@ -88,7 +88,7 @@
       <span class="tagpill">v0.1.0</span>
       <span class="tagpill">MIT</span>
     </div>
-    <p class="lede" style="margin:0;">A Laravel-native authorization reviewer. Point it at any Laravel project and it finds broken object-level authorization (IDOR) — the bug class static scanners structurally miss — without ever editing your code.</p>
+    <p class="lede" style="margin:0;">Point it at a Laravel project and it finds broken access control (IDOR) — the bug class scanners miss. It never edits your code.</p>
   </div>
 </div>
 
@@ -96,22 +96,22 @@
   <div class="wrap prose">
 
     <h2>What it does</h2>
-    <p>Static scanners trace where untrusted <b>input</b> flows. They can't tell you whether <code>Invoice::find($id)</code> <em>should</em> have been scoped to the logged-in user — that's a question about <b>intent</b>, and it's exactly the bug behind <b>IDOR / broken object-level authorization (BOLA)</b>, #1 in the OWASP API Security Top 10. This skill is the judgment layer for that gap.</p>
+    <p>Scanners follow where untrusted <b>input</b> goes. They can't tell you whether <code>Invoice::find($id)</code> <em>should</em> have been limited to the logged-in user — that's about <b>intent</b>, and it's exactly the bug behind <b>IDOR / broken access control (BOLA)</b>, #1 in the OWASP API Security Top 10. This skill fills that gap.</p>
     <ul class="feat">
-      <li><span class="ck">▹</span><div><b>Walks the authorization chain of every route</b> — authentication → authorization (policy/gate/<code>can:</code>/FormRequest) → object scoping → API Resource output.</div></li>
-      <li><span class="ck">▹</span><div><b>Catches the classic Laravel IDOR</b> — route-model binding (<code>update(Post $post)</code>) resolves <em>any</em> record by id but does <em>not</em> authorize it; a missing <code>authorize()</code> or owner scope is the hole.</div></li>
-      <li><span class="ck">▹</span><div><b>Anchored to ground truth</b> — every finding traces to a real <code>php artisan route:list --json</code> entry and a cited controller <code>file:line</code>. No anchor, no finding.</div></li>
-      <li><span class="ck">▹</span><div><b>Confidence-rated</b> — High (structural), Medium (depends on whether a model is owned), Low (hardening). Medium/Low are phrased as "verify", never asserted.</div></li>
-      <li><span class="ck">▹</span><div><b>False-positive aware</b> — recognizes every legitimate authorization pattern and knows public-by-design routes (login, webhooks with signatures), so it won't cry wolf.</div></li>
-      <li><span class="ck">▹</span><div><b>Per-route coverage map</b> — shows every route × every layer, so you see what's protected <em>and</em> what's checked, not just a list of negatives.</div></li>
+      <li><span class="ck">▹</span><div><b>Checks the full chain on every route</b> — login → permission (policy / gate / <code>can:</code> / FormRequest) → owner check → API output.</div></li>
+      <li><span class="ck">▹</span><div><b>Catches the classic Laravel IDOR</b> — <code>update(Post $post)</code> loads <em>any</em> record by id but never checks who owns it. The missing <code>authorize()</code> or owner check is the hole.</div></li>
+      <li><span class="ck">▹</span><div><b>Backed by real data</b> — every finding points to a real <code>php artisan route:list --json</code> entry and a controller <code>file:line</code>. No proof, no finding.</div></li>
+      <li><span class="ck">▹</span><div><b>Rates its confidence</b> — High (clear hole), Medium (depends on who owns the model), Low (hardening). Medium/Low say "verify", never claim it as fact.</div></li>
+      <li><span class="ck">▹</span><div><b>Doesn't cry wolf</b> — knows every valid way to authorize and which routes are public on purpose (login, signed webhooks).</div></li>
+      <li><span class="ck">▹</span><div><b>Shows a coverage map</b> — every route × every layer, so you see what's protected <em>and</em> what was checked, not just a list of problems.</div></li>
     </ul>
 
     <div class="callout">
-      <b>Advise-only.</b> It reads files and runs one read-only command (<code>php artisan route:list --json</code>), then hands you findings + fix sketches. It never edits your routes, controllers, policies, or code — you apply every fix yourself.
+      <b>Only advises.</b> It reads files and runs one read-only command (<code>php artisan route:list --json</code>), then hands you findings and fix ideas. It never edits your routes, controllers, policies, or code — you apply every fix yourself.
     </div>
 
     <h2>Example output</h2>
-    <p>A real review run, condensed. The route inventory and cited lines are hard facts; whether a model is "owned" or a field is sensitive is the skill's judgment — stated as an assumption to confirm.</p>
+    <p>A real run, shortened. The route list and cited lines are hard facts; whether a model is "owned" or a field is sensitive is the skill's call — shown as an assumption for you to confirm.</p>
   </div>
 
   <div class="wrap" style="margin-top:6px;">
@@ -142,9 +142,9 @@
   </div>
   <div class="wrap">
     <div class="lanes">
-      <div class="lane defer"><h4>🔴 Verify &amp; fix now</h4><p>High-confidence structural holes — no auth/authz/scope on owned data. Confirm with the cited line, add the check, add an authorization test.</p></div>
-      <div class="lane careful"><h4>🟡 Review</h4><p>Likely IDOR or data leak that depends on whether a model is owned or a field is sensitive. Decide the intent, then scope or authorize.</p></div>
-      <div class="lane harden"><h4>🔵 Hardening</h4><p>Defense-in-depth — missing policy, mass-assignment of ownership keys. Tidy when convenient.</p></div>
+      <div class="lane defer"><h4>🔴 Fix now</h4><p>Clear holes — no login/permission/owner check on owned data. Confirm with the cited line, add the check, add a test.</p></div>
+      <div class="lane careful"><h4>🟡 Review</h4><p>Likely IDOR or data leak — depends on who owns the model or whether a field is sensitive. Decide, then add the check.</p></div>
+      <div class="lane harden"><h4>🔵 Hardening</h4><p>Extra safety — missing policy, owner keys open to mass-assignment. Tidy when convenient.</p></div>
     </div>
   </div>
 
@@ -156,21 +156,21 @@
       <tr><td>The app boots enough to run <code>php artisan route:list</code></td><td>the ground-truth route inventory</td></tr>
       <tr><td>Readable <code>app/</code>, <code>routes/</code>, <code>app/Policies/</code></td><td>to walk the authorization chain</td></tr>
     </table>
-    <p>If the app can't boot, the skill falls back to parsing <code>routes/*.php</code> and tells you the inventory is best-effort (lower confidence).</p>
+    <p>If the app can't boot, the skill reads <code>routes/*.php</code> instead and tells you the list is best-effort (lower confidence).</p>
 
     <h2>Install &amp; use</h2>
-    <p>You don't need the whole library or a marketplace — drop just this one skill folder into your project's <code>.claude/skills/</code>:</p>
+    <p>No marketplace or full library needed — drop this one folder into your project's <code>.claude/skills/</code>:</p>
     <div class="term">
       <div class="bar"><i></i><i></i><i></i><span>your Laravel project</span></div>
 <pre><span class="c"># grab just this skill (per-project)</span>
-npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/maintenance/skills/<span class="g">laravel-authorization-review</span> \
+npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/skills/<span class="g">laravel-authorization-review</span> \
   .claude/skills/laravel-authorization-review</pre>
     </div>
-    <p style="margin-top:14px;">Use <code>~/.claude/skills/</code> instead to install it <b>globally</b> (every project). No <code>npx</code>? <a data-gh="" href="#">Clone the repo</a> and copy the <code>maintenance/skills/laravel-authorization-review</code> folder into <code>.claude/skills/</code>. Want every skill at once? Add the <a data-gh="" href="#">plugin marketplace</a> (optional).</p>
+    <p style="margin-top:14px;">Use <code>~/.claude/skills/</code> instead to install it <b>globally</b> (every project). No <code>npx</code>? <a data-gh="" href="#">Clone the repo</a> and copy the <code>skills/laravel-authorization-review</code> folder into <code>.claude/skills/</code>. Want every skill at once? Add the <a data-gh="" href="#">plugin marketplace</a> (optional).</p>
     <div class="steps" style="margin-top:18px;">
       <div class="step"><div><b>Open Claude Code in your project</b><p>Start it inside your Laravel project folder (the one with <code>artisan</code>).</p></div></div>
       <div class="step"><div><b>Ask in plain language</b><p>"review my authorization", "find IDOR in this app", "which routes have no auth?", "review authorization on the routes in this PR" — the skill activates automatically.</p></div></div>
-      <div class="step"><div><b>Review, then fix</b><p>You get a coverage map + confidence-rated findings with evidence. Nothing is changed for you — apply each fix on a branch, with authorization tests.</p></div></div>
+      <div class="step"><div><b>Read it, then fix</b><p>You get a coverage map and findings with proof. Nothing is changed for you — apply each fix on a branch, with tests.</p></div></div>
     </div>
 
     <h2>Boundaries</h2>
@@ -181,12 +181,12 @@ npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/ma
       <li>does not judge <b>business-logic</b> authorization (approval states, time-based rules) — flagged for a human;</li>
       <li>does not catch IDOR via indirect references not visible in code, or infra/gateway authz.</li>
     </ul>
-    <p>It is <b>not a pentest and not a security product</b>: a finding-free report means "nothing broken in the layers checked", not "secure".</p>
+    <p>It is <b>not a pentest and not a security product</b>: a report with no findings means "nothing broken in the layers checked", not "secure".</p>
 
     <p style="margin-top:36px; display:flex; gap:10px; flex-wrap:wrap;">
-      <a class="btn ghost" data-gh="/blob/main/maintenance/skills/laravel-authorization-review/USAGE.md" href="#">Full usage guide ↗</a>
-      <a class="btn ghost" data-gh="/blob/main/maintenance/skills/laravel-authorization-review/examples/report.md" href="#">Example report ↗</a>
-      <a class="btn ghost" data-gh="/blob/main/maintenance/skills/laravel-authorization-review/SKILL.md" href="#">SKILL.md source ↗</a>
+      <a class="btn ghost" data-gh="/blob/main/skills/laravel-authorization-review/USAGE.md" href="#">Full usage guide ↗</a>
+      <a class="btn ghost" data-gh="/blob/main/skills/laravel-authorization-review/examples/report.md" href="#">Example report ↗</a>
+      <a class="btn ghost" data-gh="/blob/main/skills/laravel-authorization-review/SKILL.md" href="#">SKILL.md source ↗</a>
       <a class="btn ghost" href="../index.html">← Back to library</a>
     </p>
   </div>

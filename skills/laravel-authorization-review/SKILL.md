@@ -15,6 +15,18 @@ description: >-
   "do my controllers check policies", "audit access control before launch".
   Advise-only: never edits code; reports findings with evidence for a human to fix.
 license: MIT
+compatible_agents:
+  - Claude Code
+  - Cursor
+  - Codex
+tags:
+  - laravel
+  - php
+  - security
+  - authorization
+  - idor
+  - bola
+  - access-control
 compatibility: >-
   Requires a Laravel project (artisan on PATH). Uses `php artisan route:list --json`
   as the ground-truth route inventory; falls back to static parsing of routes/*.php

@@ -164,7 +164,7 @@
   <div class="wrap">
     <span class="eyebrow">⚡ A growing skill library · Laravel-native · Claude Code</span>
     <h1>A skills library to keep<br><span class="grad">Laravel projects healthy.</span></h1>
-    <p class="lede">Pick a skill, drop it into Claude Code, and turn raw tool output — <code>composer audit</code>, <code>route:list</code> — into a clear, prioritized plan: safe dependency updates, abandoned-package replacements, and IDOR / authorization findings. Advise-only — it recommends, you stay in control.</p>
+    <p class="lede">Drop a skill into Claude Code and ask in plain words. It turns raw tool output — <code>composer audit</code>, <code>route:list</code> — into a clear, ranked to-do list: safe updates, replacements for dead packages, and IDOR / access-control holes. It only advises — you stay in control.</p>
     <p class="pull">Composer tells you what's outdated.<br><span>// this library tells you what to do about it.</span></p>
     <div class="cta-row">
       <a class="btn" href="#catalog">Browse the catalog</a>
@@ -182,7 +182,7 @@
   <div class="wrap">
     <p class="kicker">The library</p>
     <h2>Skills catalog</h2>
-    <p class="sub">A modular, open library — each skill is a self-contained, advise-only folder you can read about and install on its own. New skills are added over time; search or filter to find one.</p>
+    <p class="sub">Each skill is one self-contained folder. Read about it, install just that one. More get added over time — search or filter below.</p>
 
     <div class="toolbar">
       <label class="search">
@@ -207,7 +207,7 @@
           <span class="mono-name">composer-dependency-triage</span>
           <span class="badge ok" style="margin-left:auto;">● available</span>
         </div>
-        <p class="blurb">Turns <code>composer outdated</code> + <code>composer audit</code> into a Do-now / Do-carefully / Defer plan. Recommends maintained replacements for abandoned packages and verifies the safest fix before any major bump.</p>
+        <p class="blurb">Turns <code>composer outdated</code> + <code>composer audit</code> into a clear plan: do now, do carefully, defer. Finds live replacements for dead packages and the safest fix before any big update.</p>
         <div class="meta">
           <span class="tagpill">dependencies</span>
           <span class="tagpill">security</span>
@@ -224,28 +224,13 @@
           <span class="mono-name">laravel-authorization-review</span>
           <span class="badge ok" style="margin-left:auto;">● available</span>
         </div>
-        <p class="blurb">Finds <b>IDOR / broken object-level authorization</b> — the class SAST misses. Walks each route's chain (middleware → policy/gate → query scoping → API Resource output), anchored to <code>php artisan route:list</code>, and returns a per-route coverage map with confidence-rated findings.</p>
+        <p class="blurb">Finds <b>IDOR / broken access control</b> — the bug class scanners miss. Checks every route's chain (login → permission → owner check → API output) against <code>php artisan route:list</code> and shows what's covered and what's not.</p>
         <div class="meta">
           <span class="tagpill">security</span>
           <span class="tagpill">v0.1.0</span>
           <span class="more">Read more →</span>
         </div>
       </a>
-
-      <div class="scard" style="opacity:.7;"
-         data-name="upgrade-orchestrator"
-         data-cat="upgrade"
-         data-keywords="laravel framework upgrade staging orchestrator migration">
-        <div class="row">
-          <span class="mono-name">upgrade-orchestrator</span>
-          <span class="badge soon" style="margin-left:auto;">○ planned</span>
-        </div>
-        <p class="blurb">Plan and stage a Laravel framework upgrade end to end — sequence the framework bump and its coupled packages into safe, testable steps.</p>
-        <div class="meta">
-          <span class="tagpill">upgrade</span>
-          <span class="tagpill">roadmap</span>
-        </div>
-      </div>
 
     </div>
     <p class="no-results" id="no-results">No skills match your search.</p>
@@ -256,12 +241,12 @@
 <section id="how">
   <div class="wrap">
     <p class="kicker">How it works</p>
-    <h2>The judgment layer your tools don't have</h2>
-    <p class="sub">Scanners and Composer detect facts; these skills decide what to <em>do</em> with them — reasoning across your code the way a senior reviewer would, and never touching your project while doing it. Every skill in the library follows the same three principles.</p>
+    <h2>Your tools find facts. These skills tell you what to do.</h2>
+    <p class="sub">Scanners and Composer show you problems. These skills decide what to do about them — the way a senior reviewer would — and never touch your project. Every skill follows the same three rules.</p>
     <div class="grid cols-3">
-      <div class="card"><span class="ico">📋</span><h3>Reads ground truth</h3><p>Runs the real tools — <code>composer outdated</code> / <code>audit</code>, <code>php artisan route:list</code> — and reasons from their output. Never invents a version, a CVE, or a route.</p></div>
-      <div class="card"><span class="ico">🧠</span><h3>Applies judgment</h3><p>Classifies and prioritizes by confidence: the safest fix for a CVE, a maintained replacement for an abandoned package, the route where an IDOR actually leaks owned data.</p></div>
-      <div class="card" style="border-color: rgba(255,59,47,.35);"><span class="ico">🛡️</span><h3>Advise-only</h3><p>Emits a prioritized plan with evidence and exact commands. It never edits your <code>composer.json</code>, routes, policies, or code — you stay in control and apply every fix.</p></div>
+      <div class="card"><span class="ico">📋</span><h3>Reads the real output</h3><p>Runs the real tools — <code>composer outdated</code> / <code>audit</code>, <code>php artisan route:list</code> — and works from what they say. Never makes up a version, a CVE, or a route.</p></div>
+      <div class="card"><span class="ico">🧠</span><h3>Decides what matters</h3><p>Sorts and ranks by confidence: the safest fix for a CVE, a live replacement for a dead package, the route where an IDOR really leaks data.</p></div>
+      <div class="card" style="border-color: rgba(255,59,47,.35);"><span class="ico">🛡️</span><h3>Only advises</h3><p>Gives you a ranked plan with proof and exact commands. Never edits your <code>composer.json</code>, routes, policies, or code — you apply every fix.</p></div>
     </div>
   </div>
 </section>
@@ -273,7 +258,7 @@
     <h2>Frequently asked questions</h2>
 
     <h3>How do I audit Composer dependencies in a Laravel project?</h3>
-    <p>Grab just the <code>composer-dependency-triage</code> skill into your project (<code>npx degit ArtemProshkovskiy/laravel-maintenance-skills/maintenance/skills/composer-dependency-triage .claude/skills/composer-dependency-triage</code>), open it in Claude Code, and ask &ldquo;audit my composer dependencies.&rdquo; The skill runs <code>composer outdated</code> and <code>composer audit</code>, then returns a prioritized Do-now / Do-carefully / Defer plan with exact commands. No marketplace or whole-library install required.</p>
+    <p>Grab just the <code>composer-dependency-triage</code> skill into your project (<code>npx degit ArtemProshkovskiy/laravel-maintenance-skills/skills/composer-dependency-triage .claude/skills/composer-dependency-triage</code>), open it in Claude Code, and ask &ldquo;audit my composer dependencies.&rdquo; The skill runs <code>composer outdated</code> and <code>composer audit</code>, then returns a prioritized Do-now / Do-carefully / Defer plan with exact commands. No marketplace or whole-library install required.</p>
 
     <h3>What can I use to replace an abandoned Composer package?</h3>
     <p>The skill recommends a maintained, community-standard successor for abandoned packages &mdash; even when Composer only prints &ldquo;No replacement was suggested&rdquo; &mdash; and tells you whether the migration is drop-in or an API change. Every replacement is marked &ldquo;verify before adopting.&rdquo;</p>
@@ -300,15 +285,15 @@
   <div class="wrap">
     <p class="kicker">Get started</p>
     <h2>Grab just the skill you need</h2>
-    <p class="sub">You don't install the whole library. Each skill is a self-contained folder — drop the one you want into your project's <code>.claude/skills/</code> and it activates on its own. No marketplace required.</p>
+    <p class="sub">You don't install the whole library. Each skill is one folder — drop the one you want into your project's <code>.claude/skills/</code> and it just works. No marketplace needed.</p>
     <div class="term">
       <div class="bar"><i></i><i></i><i></i><span>your Laravel project</span></div>
 <pre><span class="c"># Authorization / IDOR review — grab just this skill</span>
-npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/maintenance/skills/<span class="g">laravel-authorization-review</span> \
+npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/skills/<span class="g">laravel-authorization-review</span> \
   .claude/skills/laravel-authorization-review
 
 <span class="c"># …or the dependency-triage skill instead</span>
-npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/maintenance/skills/<span class="g">composer-dependency-triage</span> \
+npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/skills/<span class="g">composer-dependency-triage</span> \
   .claude/skills/composer-dependency-triage
 
 <span class="c"># then open Claude Code in the project and just ask</span>

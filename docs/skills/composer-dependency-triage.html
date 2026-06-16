@@ -68,7 +68,7 @@
     <div class="links">
       <a href="../index.html#catalog">Catalog</a>
       <a href="../index.html#install">Install</a>
-      <a class="btn ghost sm" data-gh="/tree/main/maintenance/skills/composer-dependency-triage" href="#">View source ↗</a>
+      <a class="btn ghost sm" data-gh="/tree/main/skills/composer-dependency-triage" href="#">View source ↗</a>
     </div>
   </div>
 </nav>
@@ -88,7 +88,7 @@
       <span class="tagpill">v0.1.0</span>
       <span class="tagpill">MIT</span>
     </div>
-    <p class="lede" style="margin:0;">A Laravel-native dependency triage advisor. Point it at any Laravel project and it turns raw Composer output into a prioritized, ready-to-act maintenance plan — without ever editing your project.</p>
+    <p class="lede" style="margin:0;">Point it at a Laravel project and it turns raw Composer output into a clear, ranked to-do list. It never edits your project.</p>
   </div>
 </div>
 
@@ -96,22 +96,22 @@
   <div class="wrap prose">
 
     <h2>What it does</h2>
-    <p>Both <code>composer outdated</code> and <code>composer audit</code> show you facts: what's out of date, what's vulnerable, what's abandoned. They don't tell you <b>what to do, or in what order</b>. This skill is the decision layer on top of them.</p>
+    <p><code>composer outdated</code> and <code>composer audit</code> show you facts: what's old, what's vulnerable, what's abandoned. They don't tell you <b>what to do, or in what order</b>. This skill does.</p>
     <ul class="feat">
-      <li><span class="ck">▹</span><div><b>Reads real tool output as ground truth</b> — never invents a version number or a CVE.</div></li>
-      <li><span class="ck">▹</span><div><b>Classifies every direct dependency:</b> 🔴 vulnerable · 🟠 abandoned · 🟡 major · 🟢 safe · ✅ healthy.</div></li>
-      <li><span class="ck">▹</span><div><b>Recommends maintained replacements for abandoned packages</b> — even when Composer just prints <em>"No replacement was suggested"</em> — with the migration shape (drop-in vs. API change).</div></li>
-      <li><span class="ck">▹</span><div><b>Finds the safest verified fix</b> for a vulnerability: reads each advisory range literally, picks the lowest fixed version, prefers a drop-in within the current major, and confirms that version actually exists — so you're never pushed into a needless major migration.</div></li>
-      <li><span class="ck">▹</span><div><b>Checks PHP/Laravel compatibility</b> before any major and routes framework-coupled bumps into the upgrade path.</div></li>
-      <li><span class="ck">▹</span><div><b>Scores breakage risk</b> with dry-run + one-lane-at-a-time guidance, so an update can't silently take your app down.</div></li>
+      <li><span class="ck">▹</span><div><b>Uses only the real tool output</b> — never makes up a version or a CVE.</div></li>
+      <li><span class="ck">▹</span><div><b>Tags every direct package:</b> 🔴 vulnerable · 🟠 abandoned · 🟡 big update · 🟢 safe update · ✅ fine.</div></li>
+      <li><span class="ck">▹</span><div><b>Finds a live replacement for dead packages</b> — even when Composer just says <em>"No replacement was suggested"</em> — and tells you if it's drop-in or an API change.</div></li>
+      <li><span class="ck">▹</span><div><b>Picks the safest fix for a vulnerability:</b> the lowest version that fixes it, drop-in if possible — so a CVE never forces a needless big upgrade.</div></li>
+      <li><span class="ck">▹</span><div><b>Checks PHP/Laravel compatibility</b> before any big update, instead of suggesting it blindly.</div></li>
+      <li><span class="ck">▹</span><div><b>Rates the risk</b> and tells you to dry-run and update one lane at a time, so nothing breaks silently.</div></li>
     </ul>
 
     <div class="callout">
-      <b>Advise-only.</b> It reads files and runs read-only commands (<code>composer outdated</code>, <code>audit</code>, <code>why</code>), then hands you a plan. It never edits your <code>composer.json</code>, lockfile, or code — you run every command yourself.
+      <b>Only advises.</b> It reads files and runs read-only commands (<code>composer outdated</code>, <code>audit</code>, <code>why</code>), then hands you a plan. It never edits your <code>composer.json</code>, lockfile, or code — you run every command yourself.
     </div>
 
     <h2>Example output</h2>
-    <p>A real triage run, condensed. Hard facts come from the tools; the plan and replacement advice are the skill's judgment — each claim verified before it's printed.</p>
+    <p>A real run, shortened. The facts come from the tools; the plan and replacements are the skill's call — each one checked before it's shown.</p>
   </div>
 
   <div class="wrap" style="margin-top:6px;">
@@ -141,9 +141,9 @@
   </div>
   <div class="wrap">
     <div class="lanes">
-      <div class="lane now"><h4>✅ Do now</h4><p>Vulnerabilities fixed by a verified drop-in, plus safe minor/patch bumps. Run the commands, run your tests.</p></div>
-      <div class="lane careful"><h4>⚠️ Do carefully</h4><p>Abandoned swaps and majors that need code edits. Read the upgrade guide first; do one at a time.</p></div>
-      <div class="lane defer"><h4>🛑 Defer</h4><p>Risky majors blocked on a Laravel/PHP upgrade. Sequenced into a dedicated pass.</p></div>
+      <div class="lane now"><h4>✅ Do now</h4><p>Safe drop-in security fixes and small updates. Run the commands, run your tests.</p></div>
+      <div class="lane careful"><h4>⚠️ Do carefully</h4><p>Dead-package swaps and big updates that need code changes. Read the upgrade guide first; do one at a time.</p></div>
+      <div class="lane defer"><h4>🛑 Defer</h4><p>Risky big updates that wait on a Laravel/PHP upgrade. Handle in a separate pass.</p></div>
     </div>
   </div>
 
@@ -159,18 +159,18 @@
     <p>Tuned for <b>Laravel</b>, but works on any Composer-managed PHP project.</p>
 
     <h2>Install &amp; use</h2>
-    <p>You don't need the whole library or a marketplace — drop just this one skill folder into your project's <code>.claude/skills/</code>:</p>
+    <p>No marketplace or full library needed — drop this one folder into your project's <code>.claude/skills/</code>:</p>
     <div class="term">
       <div class="bar"><i></i><i></i><i></i><span>your Laravel project</span></div>
 <pre><span class="c"># grab just this skill (per-project)</span>
-npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/maintenance/skills/<span class="g">composer-dependency-triage</span> \
+npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/skills/<span class="g">composer-dependency-triage</span> \
   .claude/skills/composer-dependency-triage</pre>
     </div>
-    <p style="margin-top:14px;">Use <code>~/.claude/skills/</code> instead to install it <b>globally</b> (every project). No <code>npx</code>? <a data-gh="" href="#">Clone the repo</a> and copy the <code>maintenance/skills/composer-dependency-triage</code> folder into <code>.claude/skills/</code>. Want every skill at once? Add the <a data-gh="" href="#">plugin marketplace</a> (optional).</p>
+    <p style="margin-top:14px;">Use <code>~/.claude/skills/</code> instead to install it <b>globally</b> (every project). No <code>npx</code>? <a data-gh="" href="#">Clone the repo</a> and copy the <code>skills/composer-dependency-triage</code> folder into <code>.claude/skills/</code>. Want every skill at once? Add the <a data-gh="" href="#">plugin marketplace</a> (optional).</p>
     <div class="steps" style="margin-top:18px;">
       <div class="step"><div><b>Open Claude Code in your project</b><p>Start it inside the folder that has <code>composer.json</code>.</p></div></div>
       <div class="step"><div><b>Ask in plain language</b><p>"audit my composer dependencies", "are any of my packages abandoned?", "check my dependencies before upgrading Laravel" — the skill activates automatically.</p></div></div>
-      <div class="step"><div><b>Review, then run</b><p>You get a Markdown plan with exact commands. Nothing is changed for you — run each on a branch, with tests.</p></div></div>
+      <div class="step"><div><b>Read it, then run</b><p>You get a plan with exact commands. Nothing is changed for you — run each on a branch, with tests.</p></div></div>
     </div>
 
     <h2>Boundaries</h2>
@@ -181,12 +181,12 @@ npx degit <span class="b">ArtemProshkovskiy</span>/laravel-maintenance-skills/ma
       <li>does not tell you to update a transitive dependency directly — it explains the chain via <code>composer why</code> and points you at the direct parent;</li>
       <li>does not recommend a major your PHP/Laravel can't satisfy — it marks it "blocked on upgrade".</li>
     </ul>
-    <p>It is <b>not</b> a security scanner: vulnerability facts come from <code>composer audit</code> (the PHP Security Advisories database), not a CVE database of its own. A clean audit means "nothing found", not "guaranteed secure".</p>
+    <p>It is <b>not</b> a security scanner: the vulnerability facts come from <code>composer audit</code> (the PHP Security Advisories database), not its own CVE list. A clean audit means "nothing found", not "guaranteed safe".</p>
 
     <p style="margin-top:36px; display:flex; gap:10px; flex-wrap:wrap;">
-      <a class="btn ghost" data-gh="/blob/main/maintenance/skills/composer-dependency-triage/USAGE.md" href="#">Full usage guide ↗</a>
-      <a class="btn ghost" data-gh="/blob/main/maintenance/skills/composer-dependency-triage/examples/report.md" href="#">Example report ↗</a>
-      <a class="btn ghost" data-gh="/blob/main/maintenance/skills/composer-dependency-triage/SKILL.md" href="#">SKILL.md source ↗</a>
+      <a class="btn ghost" data-gh="/blob/main/skills/composer-dependency-triage/USAGE.md" href="#">Full usage guide ↗</a>
+      <a class="btn ghost" data-gh="/blob/main/skills/composer-dependency-triage/examples/report.md" href="#">Example report ↗</a>
+      <a class="btn ghost" data-gh="/blob/main/skills/composer-dependency-triage/SKILL.md" href="#">SKILL.md source ↗</a>
       <a class="btn ghost" href="../index.html">← Back to library</a>
     </p>
   </div>
