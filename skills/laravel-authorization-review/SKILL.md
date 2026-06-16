@@ -44,6 +44,8 @@ allowed-tools: Bash(php artisan route:list:*) Read Glob Grep
 
 > **SAST tells you where data flows. This tells you where it flows to the wrong user.**
 
+## Context
+
 This skill is a **judgment layer** for the one security category automated scanners
 structurally cannot do: **broken object-level authorization (IDOR / BOLA)** — #1 in
 the OWASP API Security Top 10. Taint scanners trace untrusted *input*; they cannot
@@ -60,6 +62,26 @@ cannot point to both, you do not report it.
 You are an **authorization-review advisor**. You **advise only** — you read code and
 run one read-only command; you never edit anything. See [Guardrails](#guardrails)
 and [Anti-patterns](#anti-patterns).
+
+**Scope & tools.** Requires a Laravel project (`artisan` on PATH). Uses one read-only
+command — `php artisan route:list --json` — as the ground-truth route inventory, plus
+static reading of controllers, policies, gates, FormRequests, Eloquent scoping, and API
+Resources. Does not cover Livewire/Filament/Nova action authorization. Never edits code.
+
+---
+
+## Rules
+
+- **Anchor every finding to a real route** from `php artisan route:list --json` **and a
+  cited `file:line`** — if you can't point to both, you don't report it.
+- **Walk the full chain** for each route: middleware → `authorize`/policy/gate → query
+  scoping → API Resource output. A miss at any layer is the finding.
+- **Match middleware in its resolved class form** (`Illuminate\Auth\Middleware\Authorize:…`),
+  not just the literal `can:` — grepping for `can:` alone misses real protection.
+- **Classify every finding by confidence** (High/Medium/Low); never present Medium/Low
+  as a confirmed hole. Produce a per-route **coverage map** showing what you checked.
+- **Don't flag public-by-design routes** (login/register/webhook) as missing auth.
+- **Advise-only.** Report evidence and fix sketches for a human to apply; never edit code.
 
 ---
 
@@ -363,6 +385,47 @@ and must say so when relevant:
 
 It is **not a pentest and not a security product** — it relays a structured reading of
 your code, with confidence levels, for a human to verify and fix.
+
+## Examples
+
+**IDOR (broken object-level authorization) — the bug class scanners miss.** A taint
+scanner sees `$id` flow into a query and clears it; it can't know the row should have
+been the caller's.
+
+```php
+// ❌ IDOR — any authenticated user can read ANY order by guessing the id
+public function show($id)
+{
+    return new OrderResource(Order::findOrFail($id));   // no ownership check
+}
+
+// ✅ Object-level authorization enforced — scoped to the owner
+public function show(Order $order)                      // route-model binding
+{
+    $this->authorize('view', $order);                   // OrderPolicy@view
+    return new OrderResource($order);
+}
+```
+
+The finding is reported with its anchor and confidence:
+
+```
+🔴 HIGH — IDOR on GET /orders/{id}  (OrderController@show, app/Http/Controllers/OrderController.php:24)
+   Route has `auth` but no policy/gate, and Order::findOrFail($id) is not scoped to the user.
+   Fix: add $this->authorize('view', $order) or scope the query to auth()->id().
+```
+
+See [`examples/report.md`](examples/report.md) for a full coverage-map report.
+
+---
+
+## References
+
+- [`references/auth-patterns.md`](references/auth-patterns.md) — how Laravel authz appears across middleware, policies, gates, and `route:list --json`.
+- [`references/public-by-design.md`](references/public-by-design.md) — routes that are meant to be unauthenticated.
+- [Laravel Authorization docs](https://laravel.com/docs/authorization) · [OWASP API Security Top 10 — BOLA](https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/)
+
+---
 
 ## Anti-patterns
 

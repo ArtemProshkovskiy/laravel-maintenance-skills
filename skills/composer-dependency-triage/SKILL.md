@@ -34,12 +34,14 @@ metadata:
   author: "Artem Proshkovskyi"
   version: "0.1.0"
   category: "triage / advisor"
-allowed-tools: Bash(composer:*) Read Glob Grep
+allowed-tools: Bash(composer outdated:*) Bash(composer audit:*) Bash(composer why:*) Bash(composer show:*) Read Glob Grep
 ---
 
 # Composer Dependency Triage
 
 > **Composer tells you what's outdated. This tells you what to do about it.**
+
+## Context
 
 This skill is a **judgment layer**, not a scanner. Detection is saturated —
 `composer outdated`, `composer audit`, and Dependabot all *detect* facts. The
@@ -57,6 +59,28 @@ defensible value here is the part those tools don't do:
 
 You are a **triage advisor**. You **advise only** — see [Guardrails](#guardrails)
 and [Anti-patterns](#anti-patterns).
+
+**Scope & tools.** Requires a PHP project with a `composer.json` and Composer 2.4+
+on PATH. Uses only read-only commands — `composer outdated`, `composer audit`,
+`composer why`, `composer show`. Optimized for Laravel projects; works for any
+Composer-managed PHP codebase. Never modifies `composer.json`, the lockfile, or code.
+
+---
+
+## Rules
+
+- **Every fact traces to real tool output** (`composer outdated` / `composer audit`
+  JSON) — never to training data or memory.
+- **Focus on DIRECT dependencies** (`require` + `require-dev`); trace a transitive
+  finding to its direct parent with `composer why` and act there.
+- **Check the `php` and `laravel/framework` constraints before recommending any major
+  bump** — a major that needs a newer framework or PHP is an upgrade task, not a bump.
+- **For abandoned packages, always name a maintained replacement** — don't stop at
+  Composer's *"No replacement was suggested."*
+- **Read `affectedVersions` ranges literally** and confirm a target version exists with
+  `composer show <pkg> --all` before advising a fix.
+- **Advise-only.** Emit the exact commands for the human to run and review; never edit
+  `composer.json`, the lockfile, or code yourself.
 
 ---
 
@@ -340,6 +364,43 @@ State plainly what you could **not** check rather than guessing:
   none abandoned, audit clean" — don't manufacture work.
 - **Intentionally pinned constraints** → flag as "pinned — confirm before bumping",
   don't treat as a defect.
+
+## Examples
+
+**Triaging an abandoned package (the gap Composer leaves).** `composer audit` prints:
+
+```
+Package patchwork/utf8 is abandoned. No replacement was suggested.
+```
+
+The skill doesn't stop there — it advises the maintained successor and the human's command:
+
+```
+🔴 patchwork/utf8 — abandoned, no upstream replacement suggested.
+   → Replace with symfony/string (maintained, Laravel-friendly).
+   You run:  composer remove patchwork/utf8 && composer require symfony/string
+```
+
+**Blocking a major that the framework can't satisfy.** `composer outdated --direct` shows
+`phpunit/phpunit 9.6 → 11.0`, but `composer.json` pins `laravel/framework: ^10`:
+
+```
+🟡 phpunit/phpunit 9.6 → 11.0 — DEFER (blocked on upgrade).
+   PHPUnit 11 needs Laravel 11+; this app is on Laravel 10. Bump as part of the
+   framework upgrade, not standalone.  Safe now:  composer update phpunit/phpunit (stays on 9.x)
+```
+
+See [`examples/report.md`](examples/report.md) for a full action-plan report.
+
+---
+
+## References
+
+- [`references/abandoned-replacements.md`](references/abandoned-replacements.md) — maintained successors for common abandoned packages.
+- [`references/laravel-compatibility.md`](references/laravel-compatibility.md) — PHP / `laravel/framework` version compatibility matrix.
+- [Composer CLI docs](https://getcomposer.org/doc/03-cli.md) · [PHP Security Advisories Database](https://github.com/FriendsOfPHP/security-advisories)
+
+---
 
 ## Anti-patterns
 
