@@ -71,6 +71,10 @@ It uses only the real `composer outdated` and `composer audit` output — it nev
 - [`SKILL.md`](SKILL.md) — the skill itself
 - [`examples/report.md`](examples/report.md) — reference output
 
+## ⭐ Found this useful?
+
+If this skill helped you, please **[star the repo on GitHub](https://github.com/ArtemProshkovskiy/laravel-maintenance-skills)** — it helps other Laravel devs find it. Browse all the skills on the **[project site](https://ArtemProshkovskiy.github.io/laravel-maintenance-skills/)**.
+
 ## License
 
 [MIT](../../LICENSE) © Artem Proshkovskyi · part of the

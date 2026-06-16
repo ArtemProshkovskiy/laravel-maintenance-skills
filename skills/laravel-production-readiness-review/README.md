@@ -73,6 +73,10 @@ It reads `APP_ENV` first: on a `local`/`dev` file the value checks become 🟡 *
 - [`examples/report.md`](examples/report.md) — reference output
 - [`references/prod-readiness-rules.md`](references/prod-readiness-rules.md) — the check catalogue it reasons from
 
+## ⭐ Found this useful?
+
+If this skill helped you, please **[star the repo on GitHub](https://github.com/ArtemProshkovskiy/laravel-maintenance-skills)** — it helps other Laravel devs find it. Browse all the skills on the **[project site](https://ArtemProshkovskiy.github.io/laravel-maintenance-skills/)**.
+
 ## License
 
 [MIT](../../LICENSE) © Artem Proshkovskyi · part of the

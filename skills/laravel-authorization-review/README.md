@@ -80,6 +80,10 @@ If the app can't boot, the skill falls back to parsing `routes/*.php` and tells 
 - [`examples/report.md`](examples/report.md) — reference output
 - [`references/`](references/) — the authorization-pattern & public-by-design catalogues
 
+## ⭐ Found this useful?
+
+If this skill helped you, please **[star the repo on GitHub](https://github.com/ArtemProshkovskiy/laravel-maintenance-skills)** — it helps other Laravel devs find it. Browse all the skills on the **[project site](https://ArtemProshkovskiy.github.io/laravel-maintenance-skills/)**.
+
 ## License
 
 [MIT](../../LICENSE) © Artem Proshkovskyi · part of the

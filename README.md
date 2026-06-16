@@ -109,6 +109,14 @@ frontmatter the directory requires.
 2. Add a block for it under **The skills** above.
 3. Surface it on the site: a card in `docs/index.html`, a page `docs/skills/<name>.html`, and a `<url>` in `docs/sitemap.xml`.
 
+## ⭐ Support & contact
+
+If these skills helped you, please **[give the repo a star](https://github.com/ArtemProshkovskiy/laravel-maintenance-skills)** — it helps other Laravel devs find them.
+
+🌐 **[Browse the skills on the project site](https://ArtemProshkovskiy.github.io/laravel-maintenance-skills/)**
+
+I'm **open to ideas, feedback, and collaboration** — open an issue, suggest a skill, or [reach out](https://github.com/ArtemProshkovskiy). Laravel + React developer, open to work.
+
 ## License
 
 [MIT](LICENSE) © Artem Proshkovskyi
